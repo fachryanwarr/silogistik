@@ -34,4 +34,9 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
 
         return null;
     }
+
+    @Override
+    public long getCount() {
+        return permintaanPengirimanDb.count();
+    }
 }

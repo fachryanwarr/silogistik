@@ -11,4 +11,6 @@ public interface PermintaanPengirimanService {
     List<PermintaanPengiriman> getAllPermintaanPengiriman();
 
     PermintaanPengiriman getPermintaanPengirimanById(BigInteger id);
+
+    long getCount();
 }

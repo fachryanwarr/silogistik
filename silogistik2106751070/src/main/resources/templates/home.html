@@ -6,16 +6,81 @@
 >
   <head>
     <meta charset="UTF-8" />
-    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
     <title>Home</title>
   </head>
 
   <body>
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
     <div th:replace="~{fragments/common :: flowbiteBody}" th:remove="tag"></div>
-    <div class="min-h-screen">
 
+    <div class="min-h-[90vh] md:flex">
+      <div
+        class="w-full md:w-[50%] bg-[url('/images/home-bg-mobile.png')] md:bg-[url('/images/home-bg-desktop.png')] bg-cover bg-no-repeat bg-center flex flex-col items-center px-5 py-20"
+      >
+        <h1
+          class="text-2xl text-white text-center font-bold shadow-lg bg-white bg-opacity-20 p-3 hover:bg-opacity-80 duration-300 hover:text-slate-900 rounded-full"
+        >
+          Atur dan Penuhi Kebutuhan Pengiriman Anda!
+        </h1>
+      </div>
+      <div
+        class="w-full md:w-[50%] md:grid md:grid-cols-2 md:gap-10 md:place-content-center p-10"
+      >
+        <a
+          href="#"
+          class="block max-w-sm py-3 px-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100"
+        >
+          <p class="text-lg font-semibold text-gray-700 text-center mb-2">Gudang</p>
+          <hr>
+          <h5
+          th:text="${jumlahGudang}"
+          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center"
+          >
+          </h5>
+          <p class="text-md font-medium text-gray-700 text-center">gudang</p>
+        </a>
+        <a
+          href="#"
+          class="block max-w-sm py-3 px-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100"
+        >
+          <p class="text-lg font-semibold text-gray-700 text-center mb-2">Barang</p>
+          <hr>
+          <h5
+          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center" th:text="${jumlahBarang}"
+          >
+          </h5>
+          <p class="text-md font-medium text-gray-700 text-center">barang</p>
+        </a>
+        <a
+          href="#"
+          class="block max-w-sm py-3 px-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100"
+        >
+          <p class="text-lg font-semibold text-gray-700 text-center mb-2">Permintaan Pengiriman</p>
+          <hr>
+          <h5
+          th:text="${jumlahPermintaan}"
+          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center"
+          >
+          </h5>
+          <p class="text-md font-medium text-gray-700 text-center">permintaan pengiriman</p>
+        </a>
+        <a
+          href="#"
+          class="block max-w-sm py-3 px-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100"
+        >
+          <p class="text-lg font-semibold text-gray-700 text-center mb-2">Karyawan</p>
+          <hr>
+          <h5
+          th:text="${jumlahKaryawan}"
+          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center"
+          >
+          </h5>
+          <p class="text-md font-medium text-gray-700 text-center">karyawan</p>
+        </a>
+      </div>
     </div>
+
     <nav th:replace="~{fragments/footer :: footer}"></nav>
   </body>
 </html>

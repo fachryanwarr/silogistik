@@ -34,4 +34,9 @@ public class KaryawanServiceImpl implements KaryawanService{
 
         return null;
     }
+
+    @Override
+    public long getCount() {
+        return karyawanDb.count();
+    }
 }

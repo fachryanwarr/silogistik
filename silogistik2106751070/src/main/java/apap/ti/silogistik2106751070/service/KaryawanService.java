@@ -11,4 +11,6 @@ public interface KaryawanService {
     List<Karyawan> getAllKaryawan();
 
     Karyawan getKaryawanById(BigInteger id);
+
+    long getCount();
 }

@@ -33,4 +33,9 @@ public class GudangServiceImpl implements GudangService{
 
         return null;
     }
+
+    @Override
+    public long getCount() {
+        return gudangDb.count();
+    }
 }

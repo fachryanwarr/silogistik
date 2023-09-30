@@ -12,4 +12,6 @@ public interface BarangService {
     Barang getBarangBySku(String sku);
 
     List<String> getAllSku();
+
+    long getCount();
 }

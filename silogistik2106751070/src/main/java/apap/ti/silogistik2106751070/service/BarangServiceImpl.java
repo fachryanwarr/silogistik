@@ -37,4 +37,9 @@ public class BarangServiceImpl implements BarangService {
     public List<String> getAllSku() {
         return barangDb.findAllSkus();
     }
+
+    @Override
+    public long getCount() {
+        return barangDb.count();
+    }
 }
