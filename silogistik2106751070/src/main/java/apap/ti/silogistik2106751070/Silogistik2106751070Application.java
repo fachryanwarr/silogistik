@@ -1,9 +1,15 @@
 package apap.ti.silogistik2106751070;
 
+import apap.ti.silogistik2106751070.dto.BarangMapper;
+import apap.ti.silogistik2106751070.dto.GudangMapper;
 import apap.ti.silogistik2106751070.dto.KaryawanMapper;
 import apap.ti.silogistik2106751070.dto.PermintaanPengirimanMapper;
+import apap.ti.silogistik2106751070.dto.request.CreateBarangRequestDTO;
+import apap.ti.silogistik2106751070.dto.request.CreateGudangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreateKaryawanRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
+import apap.ti.silogistik2106751070.service.BarangService;
+import apap.ti.silogistik2106751070.service.GudangService;
 import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
 import com.github.javafaker.Faker;
@@ -15,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.math.BigInteger;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +38,11 @@ public class Silogistik2106751070Application {
 	CommandLineRunner run(KaryawanService karyawanService,
 						  KaryawanMapper karyawanMapper,
 						  PermintaanPengirimanService permintaanPengirimanService,
-						  PermintaanPengirimanMapper permintaanPengirimanMapper
+						  PermintaanPengirimanMapper permintaanPengirimanMapper,
+						  GudangService gudangService,
+						  GudangMapper gudangMapper,
+						  BarangService barangService,
+						  BarangMapper barangMapper
 	) {
 		return args -> {
 			var faker = new Faker(new Locale("in-ID"));
@@ -39,6 +50,8 @@ public class Silogistik2106751070Application {
 
 			var karyawanDTO = new CreateKaryawanRequestDTO();
 			var permintaanPengirimanDTO = new CreatePermintaanPengirimanRequestDTO();
+			var gudangDTO = new CreateGudangRequestDTO();
+			var barangDTO = new CreateBarangRequestDTO();
 
 			for (int i = 0; i < 10; i++) {
 				karyawanDTO.setNama(faker.name().name());
@@ -50,20 +63,57 @@ public class Silogistik2106751070Application {
 			}
 
 			for (int i = 0; i < 30; i++) {
-				permintaanPengirimanDTO.setNomorPengiriman("");
+				int jumlahBarangDipesan = (int) Math.floor(10 + Math.random() * 90);
+				int noJenisLayanan = 1 + (int) Math.floor(Math.random() * 4);
+				String jenisLayanan = switch (noJenisLayanan) {
+					case 1 -> "SAM";
+					case 2 -> "KIL";
+					case 3 -> "REG";
+					default -> "HEM";
+				};
+				LocalTime waktuPengiriman = LocalTime.of((int) Math.floor(Math.random() * 21), (int) Math.floor(Math.random() * 59), (int) Math.floor(Math.random() * 59));
+
+				permintaanPengirimanDTO.setNomorPengiriman("REQ" + jumlahBarangDipesan + jenisLayanan + waktuPengiriman.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 				permintaanPengirimanDTO.setNamaPenerima(faker.name().firstName());
 				permintaanPengirimanDTO.setAlamatPenerima(faker.address().streetAddress());
 				//random past date ten months from now
 				Date utilDate = fakeDate.past(10 * 30, TimeUnit.DAYS);
-				permintaanPengirimanDTO.setTanggalPengiriman(new java.sql.Date(utilDate.getTime()));
+				permintaanPengirimanDTO.setTanggalPengiriman(new java.sql.Date(utilDate.getTime()).toLocalDate());
 
 				permintaanPengirimanDTO.setBiayaPengiriman(10000 + (int) Math.floor(Math.random() * 90000));
-				permintaanPengirimanDTO.setJenisLayanan(1 + (int) Math.floor(Math.random() * 4));
-				permintaanPengirimanDTO.setWaktuPermintaan(LocalTime.of((int) Math.floor(Math.random() * 21), (int) Math.floor(Math.random() * 59)));
+				permintaanPengirimanDTO.setJenisLayanan(noJenisLayanan);
+				permintaanPengirimanDTO.setWaktuPermintaan(waktuPengiriman);
 				permintaanPengirimanDTO.setKaryawan(karyawanService.getKaryawanById(BigInteger.valueOf(1 + (int) Math.floor(Math.random() * 10))));
 
 				var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
 				permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
+			}
+
+			for (int i = 0; i < 5; i++) {
+				gudangDTO.setNama("Gudang " + faker.address().city());
+				gudangDTO.setAlamatGudang(faker.address().streetAddress());
+
+				var gudang = gudangMapper.createGudangRequestDTOToGudang(gudangDTO);
+				gudangService.saveGudang(gudang);
+			}
+
+			for (int i = 0; i < 50; i++) {
+				int noTipeBarang = (int) Math.floor(1 + Math.random() * 5);
+				String tipeBarang = switch (noTipeBarang) {
+					case 1 -> "ELEC";
+					case 2 -> "CLOT";
+					case 3 -> "FOOD";
+					case 4 -> "COSM";
+					default -> "TOOL";
+				};
+
+				barangDTO.setTipeBarang(noTipeBarang);
+				barangDTO.setSku(tipeBarang + String.format("%03d", i));
+				barangDTO.setMerk(faker.company().name());
+				barangDTO.setHarga(BigInteger.valueOf(10000 + (int) Math.floor(Math.random() * 1000000)));
+
+				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
+				barangService.saveBarang(barang);
 			}
 		};
 	}

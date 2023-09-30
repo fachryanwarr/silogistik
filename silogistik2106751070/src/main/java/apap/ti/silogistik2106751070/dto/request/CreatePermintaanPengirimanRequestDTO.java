@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class CreatePermintaanPengirimanRequestDTO {
     @NotNull
-    @Size(max = 12)
+    @Size(max = 16)
     private String nomorPengiriman;
 
     @NotNull
@@ -25,7 +26,7 @@ public class CreatePermintaanPengirimanRequestDTO {
     private String alamatPenerima;
 
     @NotNull
-    private Date tanggalPengiriman;
+    private LocalDate tanggalPengiriman;
 
     @NotNull
     private Integer biayaPengiriman;

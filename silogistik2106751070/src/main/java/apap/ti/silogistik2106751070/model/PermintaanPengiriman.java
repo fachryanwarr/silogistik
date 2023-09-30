@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Size(max = 16)
-    @Column(name = "nomor_pengiriman", nullable = false)
+    @Column(name = "nomor_pengiriman", nullable = false, unique = true)
     private String nomorPengiriman;
 
     @NotNull
@@ -45,7 +46,7 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Column(name = "tanggal_pengiriman", nullable = false)
-    private Date tanggalPengiriman;
+    private LocalDate tanggalPengiriman;
 
     @NotNull
     @Column(name = "biaya_pengiriman", nullable = false)
