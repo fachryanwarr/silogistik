@@ -10,4 +10,6 @@ public interface BarangService {
     List<Barang> getAllBarang();
 
     Barang getBarangBySku(String sku);
+
+    List<String> getAllSku();
 }

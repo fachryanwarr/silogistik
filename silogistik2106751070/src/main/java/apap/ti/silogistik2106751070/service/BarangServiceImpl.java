@@ -32,4 +32,9 @@ public class BarangServiceImpl implements BarangService {
 
         return null;
     }
+
+    @Override
+    public List<String> getAllSku() {
+        return barangDb.findAllSkus();
+    }
 }

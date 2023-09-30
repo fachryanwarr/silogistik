@@ -8,10 +8,8 @@ import apap.ti.silogistik2106751070.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreateGudangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreateKaryawanRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
-import apap.ti.silogistik2106751070.service.BarangService;
-import apap.ti.silogistik2106751070.service.GudangService;
-import apap.ti.silogistik2106751070.service.KaryawanService;
-import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
+import apap.ti.silogistik2106751070.model.GudangBarang;
+import apap.ti.silogistik2106751070.service.*;
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +21,7 @@ import java.math.BigInteger;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +41,8 @@ public class Silogistik2106751070Application {
 						  GudangService gudangService,
 						  GudangMapper gudangMapper,
 						  BarangService barangService,
-						  BarangMapper barangMapper
+						  BarangMapper barangMapper,
+						  GudangBarangService gudangBarangService
 	) {
 		return args -> {
 			var faker = new Faker(new Locale("in-ID"));
@@ -114,6 +114,16 @@ public class Silogistik2106751070Application {
 
 				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
 				barangService.saveBarang(barang);
+			}
+
+			for (int i = 0; i < 30; i++) {
+				var gudangBarang = new GudangBarang();
+
+				List<String> listSKU = barangService.getAllSku();
+				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 49))));
+				gudangBarang.setGudang(gudangService.getGudangById(BigInteger.valueOf((int) Math.floor(1 + Math.random() * 5))));
+				gudangBarang.setStok((int) Math.floor(1 + Math.random() * 99));
+				gudangBarangService.saveGudangBarang(gudangBarang);
 			}
 		};
 	}
