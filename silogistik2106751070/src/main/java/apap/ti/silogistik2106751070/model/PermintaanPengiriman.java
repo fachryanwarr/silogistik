@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,13 +27,13 @@ public class PermintaanPengiriman {
     private BigInteger id;
 
     @NotNull
-    @Size(max = 12)
+    @Size(max = 16)
     @Column(name = "nomor_pengiriman", nullable = false)
     private String nomorPengiriman;
 
     @NotNull
     @Column(name = "is_canceled", nullable = false)
-    private Boolean isCanceled;
+    private Boolean isCanceled = true;
 
     @NotNull
     @Column(name = "nama_penerima", nullable = false)
@@ -57,7 +57,7 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Column(name = "waktu_pengiriman", nullable = false)
-    private LocalDateTime waktuPermintaan;
+    private LocalTime waktuPermintaan;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_karyawan", referencedColumnName = "id")
