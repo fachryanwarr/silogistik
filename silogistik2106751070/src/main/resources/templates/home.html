@@ -7,12 +7,12 @@
   <head>
     <meta charset="UTF-8" />
     <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
     <title>Home</title>
   </head>
 
   <body>
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-    <div th:replace="~{fragments/common :: flowbiteBody}" th:remove="tag"></div>
 
     <div class="min-h-[90vh] md:flex">
       <div
@@ -35,7 +35,7 @@
           <hr>
           <h5
           th:text="${jumlahGudang}"
-          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center"
+          class="mb-2 text-6xl font-bold tracking-tight text-slate-700 text-center"
           >
           </h5>
           <p class="text-md font-medium text-gray-700 text-center">gudang</p>
@@ -47,7 +47,7 @@
           <p class="text-lg font-semibold text-gray-700 text-center mb-2">Barang</p>
           <hr>
           <h5
-          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center" th:text="${jumlahBarang}"
+          class="mb-2 text-6xl font-bold tracking-tight text-slate-700 text-center" th:text="${jumlahBarang}"
           >
           </h5>
           <p class="text-md font-medium text-gray-700 text-center">barang</p>
@@ -60,7 +60,7 @@
           <hr>
           <h5
           th:text="${jumlahPermintaan}"
-          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center"
+          class="mb-2 text-6xl font-bold tracking-tight text-slate-700 text-center"
           >
           </h5>
           <p class="text-md font-medium text-gray-700 text-center">permintaan pengiriman</p>
@@ -73,7 +73,7 @@
           <hr>
           <h5
           th:text="${jumlahKaryawan}"
-          class="mb-2 text-6xl font-bold tracking-tight text-gray-900 text-center"
+          class="mb-2 text-6xl font-bold tracking-tight text-slate-700 text-center"
           >
           </h5>
           <p class="text-md font-medium text-gray-700 text-center">karyawan</p>

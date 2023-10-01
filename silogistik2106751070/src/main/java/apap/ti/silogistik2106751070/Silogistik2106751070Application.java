@@ -9,6 +9,7 @@ import apap.ti.silogistik2106751070.dto.request.CreateGudangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreateKaryawanRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
 import apap.ti.silogistik2106751070.model.GudangBarang;
+import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.service.*;
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
@@ -42,7 +43,8 @@ public class Silogistik2106751070Application {
 						  GudangMapper gudangMapper,
 						  BarangService barangService,
 						  BarangMapper barangMapper,
-						  GudangBarangService gudangBarangService
+						  GudangBarangService gudangBarangService,
+						  PermintaanPengirimanBarangService permintaanPengirimanBarangService
 	) {
 		return args -> {
 			var faker = new Faker(new Locale("in-ID"));
@@ -116,14 +118,22 @@ public class Silogistik2106751070Application {
 				barangService.saveBarang(barang);
 			}
 
+			List<String> listSKU = barangService.getAllSku();
+
 			for (int i = 0; i < 30; i++) {
 				var gudangBarang = new GudangBarang();
-
-				List<String> listSKU = barangService.getAllSku();
 				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 49))));
 				gudangBarang.setGudang(gudangService.getGudangById(BigInteger.valueOf((int) Math.floor(1 + Math.random() * 5))));
 				gudangBarang.setStok((int) Math.floor(1 + Math.random() * 99));
 				gudangBarangService.saveGudangBarang(gudangBarang);
+			}
+
+			for (int i = 0; i < 30; i++) {
+				var permintaanPengirimanBarang = new PermintaanPengirimanBarang();
+				permintaanPengirimanBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 49))));
+				permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengirimanService.getPermintaanPengirimanById(BigInteger.valueOf((int) Math.floor(1 + Math.random() * 30))));
+				permintaanPengirimanBarang.setKuantitasPengiriman((int) Math.floor(1 + Math.random() * 10));
+				permintaanPengirimanBarangService.savePermintaanPengirimanBarang(permintaanPengirimanBarang);
 			}
 		};
 	}

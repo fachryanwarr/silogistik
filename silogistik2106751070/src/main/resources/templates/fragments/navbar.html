@@ -10,14 +10,19 @@
   </head>
   <body>
     <nav th:fragment="navbar" class="bg-white border-gray-200">
-      <div class="max-w-screen-xl flex flex-wrap items-center mx-auto py-3 px-4">
-        <a th:href="@{/}" class="flex items-center md:w-[40%]">
-          <img th:src="@{/images/logo.png}" class="h-10 mr-2" alt="Logo" />
-          <span
-            class="self-center text-2xl whitespace-nowrap font-bold text-[#E58E15]"
-            >SiLogistik</span
-          >
-        </a>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center mx-auto py-3 px-4"
+      >
+        <div class="md:w-[40%]">
+          <a th:href="@{/}" class="flex items-center w-auto">
+            <img th:src="@{/images/logo.png}" class="h-10 mr-2" alt="Logo" />
+            <span
+              class="self-center text-2xl whitespace-nowrap font-bold text-[#E58E15]"
+              >SiLogistik</span
+            >
+          </a>
+        </div>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
@@ -47,30 +52,68 @@
             class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:gap-10 md:space-x-8 md:mt-0 md:border-0 md:bg-white"
           >
             <li>
-              <a
-                href="#"
-                class="block py-2 pl-3 pr-4rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-                >Gudang</a
+              <button
+                id="dropdownNavbarLink"
+                data-dropdown-toggle="dropdownNavbar"
+                class="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
+                Gudang
+                <svg
+                  class="w-2.5 h-2.5 ml-2.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <!-- Dropdown menu -->
+              <div
+                id="dropdownNavbar"
+                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+              >
+                <ul
+                  class="py-2 text-sm text-gray-700"
+                  aria-labelledby="dropdownLargeButton"
+                >
+                  <li>
+                    <a th:href="@{/gudang}" class="block px-4 py-2 hover:bg-gray-100"
+                      >Daftar Gudang</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                      >Cari Barang</a
+                    >
+                  </li>
+                </ul>
+              </div>
             </li>
             <li>
               <a
                 href="#"
-                class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                class="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                 >Barang</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                class="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                 >Permintaan Pengiriman</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="block py-2 pl-3 pr-4  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                class="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                 >Bonus</a
               >
             </li>
