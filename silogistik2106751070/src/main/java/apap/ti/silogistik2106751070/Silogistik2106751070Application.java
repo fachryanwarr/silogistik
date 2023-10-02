@@ -111,7 +111,7 @@ public class Silogistik2106751070Application {
 
 				barangDTO.setTipeBarang(noTipeBarang);
 				barangDTO.setSku(tipeBarang + String.format("%03d", i));
-				barangDTO.setMerk(faker.company().name());
+				barangDTO.setMerk(faker.commerce().productName());
 				barangDTO.setHarga(BigInteger.valueOf(10000 + (int) Math.floor(Math.random() * 1000000)));
 
 				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);

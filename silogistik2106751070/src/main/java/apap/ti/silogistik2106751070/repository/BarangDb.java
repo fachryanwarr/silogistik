@@ -12,4 +12,6 @@ import java.util.List;
 public interface BarangDb extends JpaRepository<Barang, String> {
     @Query("SELECT b.sku FROM Barang b")
     List<String> findAllSkus();
+
+    List<Barang> findAllByOrderByMerk();
 }

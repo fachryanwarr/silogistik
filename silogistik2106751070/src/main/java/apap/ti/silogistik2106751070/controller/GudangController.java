@@ -1,21 +1,30 @@
 package apap.ti.silogistik2106751070.controller;
 
+import apap.ti.silogistik2106751070.dto.GudangMapper;
+import apap.ti.silogistik2106751070.dto.request.UpdateGudangRequestDTO;
+import apap.ti.silogistik2106751070.model.Barang;
+import apap.ti.silogistik2106751070.model.Gudang;
+import apap.ti.silogistik2106751070.model.GudangBarang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.GudangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class GudangController {
 
     @Autowired
     GudangService gudangService;
+
+    @Autowired
+    GudangMapper gudangMapper;
 
     @Autowired
     BarangService barangService;
@@ -29,7 +38,10 @@ public class GudangController {
 
     @GetMapping("/gudang/{id}")
     public String viewGudangDetail(@PathVariable(value = "id") BigInteger id, Model model) {
-        model.addAttribute("gudang", gudangService.getGudangById(id));          
+        Gudang gudang = gudangService.getGudangById(id);
+        var gudangResponse = gudangMapper.gudangToReadGudangResponseDTO(gudang);
+
+        model.addAttribute("gudang", gudangResponse);
 
         return "gudang/view-gudang";
     }
@@ -43,8 +55,43 @@ public class GudangController {
             model.addAttribute("selectedValue", skuBarang);
         }
 
-        model.addAttribute("listBarang", barangService.getAllBarang());
+        model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
 
         return "gudang/cari-barang";
+    }
+
+    @GetMapping("/gudang/{idGudang}/restock-barang")
+    public String formRestockBarang(@PathVariable(value = "idGudang") BigInteger id, Model model) {
+        Gudang gudang = gudangService.getGudangById(id);
+        UpdateGudangRequestDTO gudangDTO = gudangMapper.gudangToUpdateGudangRequestDTO(gudang);
+        List<Barang> listBarang = barangService.getAllBarangSortedByMerk();
+
+        model.addAttribute("gudangDTO", gudangDTO);
+        model.addAttribute("listBarang", listBarang);
+
+        return "gudang/form-restock-barang";
+    }
+
+    @PostMapping(value="/gudang/{idGudang}/restock-barang", params={"addRow"})
+    public String addRowRestockBarang(@ModelAttribute UpdateGudangRequestDTO gudangDTO, Model model) {
+        if (gudangDTO.getListGudangBarang() == null || gudangDTO.getListGudangBarang().size() == 0) {
+            gudangDTO.setListGudangBarang(new ArrayList<>());
+        }
+
+        gudangDTO.getListGudangBarang().add(new GudangBarang());
+
+        model.addAttribute("gudangDTO", gudangDTO);
+        model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
+
+        return "gudang/form-restock-barang";
+    }
+
+    @PostMapping("/gudang/{idGudang}/restock-barang")
+    public RedirectView updateRestockBarang(@ModelAttribute UpdateGudangRequestDTO gudangDTO, Model model) {
+        Gudang gudang = gudangMapper.updateGudangRequestDTOToGudang(gudangDTO);
+
+        gudangService.restockBarang(gudang);
+
+        return new RedirectView("/gudang/" + gudangDTO.getId());
     }
 }

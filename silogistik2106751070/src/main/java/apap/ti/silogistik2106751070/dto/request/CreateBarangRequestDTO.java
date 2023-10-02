@@ -13,8 +13,6 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateBarangRequestDTO {
-    @Id
-    @NotNull
     private String sku;
 
     @NotNull

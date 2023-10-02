@@ -1,5 +1,6 @@
 package apap.ti.silogistik2106751070.service;
 
+import apap.ti.silogistik2106751070.dto.request.UpdateGudangRequestDTO;
 import apap.ti.silogistik2106751070.model.Gudang;
 
 import java.math.BigInteger;
@@ -13,4 +14,6 @@ public interface GudangService {
     Gudang getGudangById(BigInteger id);
 
     long getCount();
+
+    void restockBarang(Gudang gudang);
 }

@@ -9,6 +9,8 @@ public interface BarangService {
 
     List<Barang> getAllBarang();
 
+    List<Barang> getAllBarangSortedByMerk();
+
     Barang getBarangBySku(String sku);
 
     List<String> getAllSku();

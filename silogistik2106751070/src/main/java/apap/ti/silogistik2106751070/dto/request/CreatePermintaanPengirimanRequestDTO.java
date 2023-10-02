@@ -15,7 +15,6 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreatePermintaanPengirimanRequestDTO {
-    @NotNull
     @Size(max = 16)
     private String nomorPengiriman;
 

@@ -1,6 +1,9 @@
 package apap.ti.silogistik2106751070.service;
 
+import apap.ti.silogistik2106751070.dto.request.UpdateGudangRequestDTO;
 import apap.ti.silogistik2106751070.model.Gudang;
+import apap.ti.silogistik2106751070.model.GudangBarang;
+import apap.ti.silogistik2106751070.repository.GudangBarangDb;
 import apap.ti.silogistik2106751070.repository.GudangDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,12 @@ import java.util.List;
 public class GudangServiceImpl implements GudangService{
     @Autowired
     GudangDb gudangDb;
+
+    @Autowired
+    GudangBarangDb gudangBarangDb;
+
+    @Autowired
+    GudangBarangService gudangBarangService;
 
     @Override
     public void saveGudang(Gudang gudang) {
@@ -38,5 +47,21 @@ public class GudangServiceImpl implements GudangService{
     public long getCount() {
 
         return gudangDb.count();
+    }
+
+    @Override
+    public void restockBarang(Gudang gudangFromDTO) {
+        Gudang gudang = getGudangById(gudangFromDTO.getId());
+
+        for (GudangBarang gudangBarangDTO : gudangFromDTO.getListGudangBarang()) {
+            if (gudangBarangDTO.getId() != null && gudangBarangService.getGudangBarangById(gudangBarangDTO.getId()) != null) {
+                GudangBarang gudangBarang = gudangBarangService.getGudangBarangById(gudangBarangDTO.getId());
+                gudangBarang.setStok(gudangBarangDTO.getStok());
+                gudangBarangDb.save(gudangBarang);
+            } else {
+                gudangBarangDTO.setGudang(gudang);
+                gudangBarangDb.save(gudangBarangDTO);
+            }
+        }
     }
 }

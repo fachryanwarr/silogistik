@@ -23,6 +23,11 @@ public class BarangServiceImpl implements BarangService {
     }
 
     @Override
+    public List<Barang> getAllBarangSortedByMerk() {
+        return barangDb.findAllByOrderByMerk();
+    }
+
+    @Override
     public Barang getBarangBySku(String sku) {
         for (Barang barang : getAllBarang()) {
             if (barang.getSku().equals(sku)) {
