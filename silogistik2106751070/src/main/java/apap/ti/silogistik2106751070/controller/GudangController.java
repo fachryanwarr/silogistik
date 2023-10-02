@@ -37,7 +37,7 @@ public class GudangController {
     }
 
     @GetMapping("/gudang/{id}")
-    public String viewGudangDetail(@PathVariable(value = "id") BigInteger id, Model model) {
+    public String viewDetailGudang(@PathVariable(value = "id") BigInteger id, Model model) {
         Gudang gudang = gudangService.getGudangById(id);
         var gudangResponse = gudangMapper.gudangToReadGudangResponseDTO(gudang);
 

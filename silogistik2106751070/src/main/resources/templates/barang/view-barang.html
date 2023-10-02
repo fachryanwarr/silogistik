@@ -9,7 +9,7 @@
     <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
     <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:insert="~{fragments/common :: datatable}" th:remove="tag"></object>
-    <title>Detail Gudang</title>
+    <title>Detail Barang</title>
   </head>
 
   <body class="bg-[#111827]">
@@ -19,54 +19,47 @@
       <div
         class="rounded-xl overflow-hidden border border-gray-500 mx-auto w-[80%]"
       >
-        <div class="bg-slate-800 flex items-center justify-between py-3 px-5">
-          <h2 class="text-xl font-bold text-white">Detail Gudang</h2>
-          <a
-            th:href="@{'/gudang/' + ${gudang.id} + '/restock-barang'}"
-            type="button"
-            class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-            >+ Restock Barang</a
-          >
-        </div>
         <div class="m-5 bg-slate-900 bg-opacity-50 p-4">
           <div class="grid grid-cols-2 text-white gap-y-3 justify-end">
-            <p class="font-semibold">Nama Gudang</p>
-            <p class="" th:text="': ' + ${gudang.nama}">:</p>
-            <p class="font-semibold">Alamat Gudang</p>
-            <p class="" th:text="': ' + ${gudang.alamatGudang}">:</p>
+            <p class="font-semibold">Merk</p>
+            <p class="" th:text="': ' + ${barang.merk}">:</p>
+            <p class="font-semibold">SKU</p>
+            <p class="" th:text="': ' + ${barang.sku}">:</p>
+            <p class="font-semibold">Tipe Barang</p>
+            <p class="" th:text="': ' + ${barang.namaTipeBarang}">:</p>
+            <p class="font-semibold">Total Stok</p>
+            <p class="" th:text="': ' + ${barang.totalStok}">:</p>
+            <p class="font-semibold">Harga</p>
+            <p class="" th:text="': Rp ' + ${#numbers.formatDecimal(barang.harga, 0, 'COMMA', 2, 'POINT')}">:</p>
           </div>
           <div class="mt-10">
-            <p class="text-xl font-semibold text-blue-300">Daftar barang tersedia</p>
+            <p class="text-xl font-semibold text-blue-300">Daftar gudang</p>
             <hr class="my-2">
           </div>
-          <div class="mt-3 text-white mb-5">
+          <div class="mt-10 text-white mb-5">
             <table id="tableDetailGudang" class="display">
               <thead class="font-bold">
                 <tr>
                   <th>#</th>
-                  <th>Sku</th>
-                  <th>Merk</th>
+                  <th>Nama Gudang</th>
+                  <th>Alamat Gudang</th>
                   <th>Stok</th>
-                  <th>Harga</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
-                  th:each="barangStok, iterStat : ${gudang.barangStok}"
+                  th:each="gudangStok, iterStat : ${barang.gudangStok}"
                 >
                   <td th:text="${iterStat.index + 1}"></td>
-                  <td><a th:href="@{'/barang/' + ${barangStok.key.sku}}" th:text="${barangStok.key.sku}" class="text-blue-100 hover:underline"></a></td>
-                  <td th:text="${barangStok.key.merk}"></td>
-                  <td th:text="${barangStok.value}"></td>
-                  <td
-                    th:text="'Rp ' + ${#numbers.formatDecimal(barangStok.key.harga, 0, 'COMMA', 2, 'POINT')}"
-                  ></td>
+                  <td><a th:href="@{'/gudang/' + ${gudangStok.key.id}}" th:text="${gudangStok.key.nama}" class="text-blue-100 hover:underline"></a></td>
+                  <td th:text="${gudangStok.key.alamatGudang}"></td>
+                  <td th:text="${gudangStok.value}"></td>
                 </tr>
               </tbody>
             </table>
             <div class="mt-5 flex justify-center">
               <a
-                th:href="@{/gudang}"
+                th:href="@{/barang}"
                 type="button"
                 class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >Kembali</a

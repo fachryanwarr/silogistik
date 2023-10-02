@@ -8,36 +8,47 @@
     <meta charset="UTF-8" />
     <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
     <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
-    <object th:insert="~{fragments/common :: datatable}" th:remove="tag"></object>
-    <title>Daftar Gudang</title>
+    <object
+      th:insert="~{fragments/common :: datatable}"
+      th:remove="tag"
+    ></object>
+    <title>Daftar Barang</title>
   </head>
 
   <body class="bg-[#111827]">
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-    <div class="min-h-screen">
-      <div class="text-center font-bold text-white m-5 text-3xl">
-        <h2>Daftar Gudang</h2>
+    <div class="min-h-screen p-10">
+      <div class="flex justify-between items-center px-5">
+        <h2 class="font-bold text-white m-5 text-3xl">Daftar Barang</h2>
+        <a
+          th:href="@{/barang/tambah}"
+          type="button"
+          class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >+ Tambah barang</a>
       </div>
-
       <div class="px-10 text-white mb-10">
-        <table id="tableGudang" class="display">
+        <table id="tableBarang" class="display">
           <thead class="font-bold">
             <tr>
               <th>#</th>
-              <th>Nama</th>
-              <th>Alamat</th>
+              <th>SKU</th>
+              <th>Merk</th>
+              <th>Stok</th>
+              <th>Harga</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="gudang, iterStat : ${listGudang}">
+            <tr th:each="barang, iterStat : ${listBarang}">
               <td th:text="${iterStat.index + 1}"></td>
-              <td th:text="${gudang.nama}"></td>
-              <td th:text="${gudang.alamatGudang}"></td>
+              <td th:text="${barang.sku}"></td>
+              <td th:text="${barang.merk}"></td>
+              <td th:text="0"></td>
+              <td th:text="'Rp ' + ${#numbers.formatDecimal(barang.harga, 0, 'COMMA', 2, 'POINT')}"></td>
               <td>
                 <a
-                  th:href="@{/gudang/{id}(id=${gudang.id})}"
+                  th:href="@{/barang/{sku}(sku=${barang.sku})}"
                   type="button"
                   class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   >Detail</a
@@ -53,8 +64,7 @@
 
     <script>
       $(document).ready(function () {
-        const datatable = new DataTable("#tableGudang");
-        datatable["lengthMenu"] = [5, 10, 20];
+        const datatable = new DataTable("#tableBarang");
       });
     </script>
   </body>
