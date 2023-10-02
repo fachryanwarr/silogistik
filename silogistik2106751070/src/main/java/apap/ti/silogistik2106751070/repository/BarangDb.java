@@ -14,4 +14,6 @@ public interface BarangDb extends JpaRepository<Barang, String> {
     List<String> findAllSkus();
 
     List<Barang> findAllByOrderByMerk();
+
+    long countByTipeBarang(Integer num);
 }

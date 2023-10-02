@@ -16,4 +16,6 @@ public interface BarangService {
     List<String> getAllSku();
 
     long getCount();
+
+    long getNextNumForSKU(Integer tipeBarang);
 }

@@ -47,4 +47,9 @@ public class BarangServiceImpl implements BarangService {
     public long getCount() {
         return barangDb.count();
     }
+
+    @Override
+    public long getNextNumForSKU(Integer tipeBarang) {
+        return 1 + barangDb.countByTipeBarang(tipeBarang);
+    }
 }

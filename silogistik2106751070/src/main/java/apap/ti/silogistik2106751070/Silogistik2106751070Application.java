@@ -110,7 +110,7 @@ public class Silogistik2106751070Application {
 				};
 
 				barangDTO.setTipeBarang(noTipeBarang);
-				barangDTO.setSku(tipeBarang + String.format("%03d", i));
+				barangDTO.setSku(tipeBarang + String.format("%03d", barangService.getNextNumForSKU(noTipeBarang)));
 				barangDTO.setMerk(faker.commerce().productName());
 				barangDTO.setHarga(BigInteger.valueOf(10000 + (int) Math.floor(Math.random() * 1000000)));
 
