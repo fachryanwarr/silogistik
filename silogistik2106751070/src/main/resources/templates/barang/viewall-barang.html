@@ -88,15 +88,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="barang, iterStat : ${listBarang}">
+            <tr th:each="barangStok, iterStat : ${listBarangStok}">
               <td th:text="${iterStat.index + 1}"></td>
-              <td th:text="${barang.sku}"></td>
-              <td th:text="${barang.merk}"></td>
-              <td th:text="0"></td>
-              <td th:text="'Rp ' + ${#numbers.formatDecimal(barang.harga, 0, 'COMMA', 2, 'POINT')}"></td>
+              <td th:text="${barangStok.key.sku}"></td>
+              <td th:text="${barangStok.key.merk}"></td>
+              <td th:text="${barangStok.value}"></td>
+              <td th:text="'Rp ' + ${#numbers.formatDecimal(barangStok.key.harga, 0, 'COMMA', 2, 'POINT')}"></td>
               <td>
                 <a
-                  th:href="@{/barang/{sku}(sku=${barang.sku})}"
+                  th:href="@{/barang/{sku}(sku=${barangStok.key.sku})}"
                   type="button"
                   class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   >Detail</a

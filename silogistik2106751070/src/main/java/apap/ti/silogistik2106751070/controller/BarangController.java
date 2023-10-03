@@ -27,7 +27,7 @@ public class BarangController {
     public String viewAllBarang(Model model) {
         String successMessage = (String) model.getAttribute("successMessage");
 
-        model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
+        model.addAttribute("listBarangStok", barangService.getAllBarangWithTotalStok());
         model.addAttribute("index", "2");
 
         if (successMessage != null) {

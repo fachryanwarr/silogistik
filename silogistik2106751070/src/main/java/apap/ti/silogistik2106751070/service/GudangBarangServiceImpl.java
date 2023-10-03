@@ -32,4 +32,9 @@ public class GudangBarangServiceImpl implements GudangBarangService{
 
         return null;
     }
+
+    @Override
+    public Long getTotalStokBySku(String sku) {
+        return gudangBarangDb.getTotalStokBySkuBarang(sku);
+    }
 }

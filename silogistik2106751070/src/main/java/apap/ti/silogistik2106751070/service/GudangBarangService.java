@@ -10,4 +10,6 @@ public interface GudangBarangService {
     List<GudangBarang> getAllGudangBarang();
 
     GudangBarang getGudangBarangById(Long id);
+
+    Long getTotalStokBySku(String sku);
 }

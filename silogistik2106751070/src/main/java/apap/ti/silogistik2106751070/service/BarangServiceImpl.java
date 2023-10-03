@@ -5,12 +5,18 @@ import apap.ti.silogistik2106751070.repository.BarangDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class BarangServiceImpl implements BarangService {
     @Autowired
     BarangDb barangDb;
+
+    @Autowired
+    GudangBarangService gudangBarangService;
 
     @Override
     public void saveBarang(Barang barang) {
@@ -25,6 +31,20 @@ public class BarangServiceImpl implements BarangService {
     @Override
     public List<Barang> getAllBarangSortedByMerk() {
         return barangDb.findAllByOrderByMerk();
+    }
+
+    @Override
+    public Map<Barang, Long> getAllBarangWithTotalStok() {
+        Map<Barang, Long> barangWithStok = new HashMap<>();
+
+        for (Barang barang : getAllBarangSortedByMerk()) {
+            Long totalStok = gudangBarangService.getTotalStokBySku(barang.getSku());
+
+            barangWithStok.put(barang, Objects.requireNonNullElseGet(totalStok, () -> (long) 0));
+
+        }
+
+        return barangWithStok;
     }
 
     @Override
