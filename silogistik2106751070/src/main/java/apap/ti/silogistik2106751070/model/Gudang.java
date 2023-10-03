@@ -21,8 +21,8 @@ import java.util.List;
 public class Gudang {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigInteger id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotNull
     @Column(name = "nama", nullable = false)

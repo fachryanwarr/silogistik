@@ -25,7 +25,7 @@ public class KaryawanServiceImpl implements KaryawanService{
     }
 
     @Override
-    public Karyawan getKaryawanById(BigInteger id) {
+    public Karyawan getKaryawanById(Long id) {
         for (Karyawan karyawan: getAllKaryawan()) {
             if (karyawan.getId().equals(id)) {
                 return karyawan;

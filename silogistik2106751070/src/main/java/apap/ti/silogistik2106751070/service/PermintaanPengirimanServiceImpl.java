@@ -25,7 +25,7 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     }
 
     @Override
-    public PermintaanPengiriman getPermintaanPengirimanById(BigInteger id) {
+    public PermintaanPengiriman getPermintaanPengirimanById(Long id) {
         for (PermintaanPengiriman permintaanPengiriman: getAllPermintaanPengiriman()) {
             if (permintaanPengiriman.getId().equals(id)) {
                 return permintaanPengiriman;

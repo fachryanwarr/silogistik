@@ -22,5 +22,5 @@ public class CreateBarangRequestDTO {
     private String merk;
 
     @NotNull
-    private BigInteger harga;
+    private Long harga;
 }

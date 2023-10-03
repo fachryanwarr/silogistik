@@ -23,8 +23,8 @@ import java.util.List;
 public class PermintaanPengiriman {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigInteger id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotNull
     @Size(max = 16)

@@ -85,7 +85,7 @@ public class Silogistik2106751070Application {
 				permintaanPengirimanDTO.setBiayaPengiriman(10000 + (int) Math.floor(Math.random() * 90000));
 				permintaanPengirimanDTO.setJenisLayanan(noJenisLayanan);
 				permintaanPengirimanDTO.setWaktuPermintaan(waktuPengiriman);
-				permintaanPengirimanDTO.setKaryawan(karyawanService.getKaryawanById(BigInteger.valueOf(1 + (int) Math.floor(Math.random() * 10))));
+				permintaanPengirimanDTO.setKaryawan(karyawanService.getKaryawanById(1 + (long) Math.floor(Math.random() * 10)));
 
 				var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
 				permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
@@ -112,7 +112,7 @@ public class Silogistik2106751070Application {
 				barangDTO.setTipeBarang(noTipeBarang);
 				barangDTO.setSku(tipeBarang + String.format("%03d", barangService.getNextNumForSKU(noTipeBarang)));
 				barangDTO.setMerk(faker.commerce().productName());
-				barangDTO.setHarga(BigInteger.valueOf(10000 + (int) Math.floor(Math.random() * 1000000)));
+				barangDTO.setHarga(10000 + (long) Math.floor(Math.random() * 1000000));
 
 				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
 				barangService.saveBarang(barang);
@@ -123,7 +123,7 @@ public class Silogistik2106751070Application {
 			for (int i = 0; i < 30; i++) {
 				var gudangBarang = new GudangBarang();
 				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 49))));
-				gudangBarang.setGudang(gudangService.getGudangById(BigInteger.valueOf((int) Math.floor(1 + Math.random() * 5))));
+				gudangBarang.setGudang(gudangService.getGudangById((long) Math.floor(1 + Math.random() * 5)));
 				gudangBarang.setStok((int) Math.floor(1 + Math.random() * 99));
 				gudangBarangService.saveGudangBarang(gudangBarang);
 			}
@@ -131,7 +131,7 @@ public class Silogistik2106751070Application {
 			for (int i = 0; i < 30; i++) {
 				var permintaanPengirimanBarang = new PermintaanPengirimanBarang();
 				permintaanPengirimanBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 49))));
-				permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengirimanService.getPermintaanPengirimanById(BigInteger.valueOf((int) Math.floor(1 + Math.random() * 30))));
+				permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengirimanService.getPermintaanPengirimanById((long) Math.floor(1 + Math.random() * 30)));
 				permintaanPengirimanBarang.setKuantitasPengiriman((int) Math.floor(1 + Math.random() * 10));
 				permintaanPengirimanBarangService.savePermintaanPengirimanBarang(permintaanPengirimanBarang);
 			}

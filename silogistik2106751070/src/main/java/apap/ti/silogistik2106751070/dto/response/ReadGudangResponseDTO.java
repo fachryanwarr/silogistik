@@ -13,7 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Data
 public class ReadGudangResponseDTO {
-    private BigInteger id;
+    private Long id;
     private String nama;
     private String alamatGudang;
     private Map<Barang, Integer> barangStok = new HashMap<>();

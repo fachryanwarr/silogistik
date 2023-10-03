@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface GudangBarangDb extends JpaRepository<GudangBarang, BigInteger> {
+public interface GudangBarangDb extends JpaRepository<GudangBarang, Long> {
 }

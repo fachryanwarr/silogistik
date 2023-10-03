@@ -11,7 +11,7 @@ public interface GudangService {
 
     List<Gudang> getAllGudang();
 
-    Gudang getGudangById(BigInteger id);
+    Gudang getGudangById(Long id);
 
     long getCount();
 

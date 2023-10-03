@@ -17,8 +17,8 @@ import java.math.BigInteger;
 @Table(name = "gudang_barang")
 public class GudangBarang {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigInteger id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_gudang", referencedColumnName = "id")

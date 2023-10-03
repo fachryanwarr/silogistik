@@ -24,7 +24,7 @@ public class GudangBarangServiceImpl implements GudangBarangService{
     }
 
     @Override
-    public GudangBarang getGudangBarangById(BigInteger id) {
+    public GudangBarang getGudangBarangById(Long id) {
         for (GudangBarang gudangBarang: getAllGudangBarang()) {
             if (gudangBarang.getId().equals(id)) {
                 return gudangBarang;

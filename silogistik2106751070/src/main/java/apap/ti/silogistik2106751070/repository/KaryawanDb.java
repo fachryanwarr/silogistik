@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface KaryawanDb extends JpaRepository<Karyawan, BigInteger> {
+public interface KaryawanDb extends JpaRepository<Karyawan, Long> {
 }

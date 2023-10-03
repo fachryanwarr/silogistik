@@ -10,5 +10,5 @@ public interface PermintaanPengirimanBarangService {
 
     List<PermintaanPengirimanBarang> getAllPermintaanPengirimanBarang();
 
-    PermintaanPengirimanBarang getPermintaanPengirimanBarangById(BigInteger id);
+    PermintaanPengirimanBarang getPermintaanPengirimanBarangById(Long id);
 }

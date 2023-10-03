@@ -17,7 +17,7 @@ public class ReadBarangResponseDTO {
     private Integer tipeBarang;
     private String namaTipeBarang;
     private String merk;
-    private BigInteger harga;
+    private Long harga;
     private int totalStok;
     private Map<Gudang, Integer> gudangStok = new HashMap<>();
 }

@@ -32,7 +32,7 @@ public class Barang {
 
     @NotNull
     @Column(name = "harga", nullable = false)
-    private BigInteger harga;
+    private Long harga;
 
     @OneToMany(mappedBy = "barang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GudangBarang> listGudangBarang = new ArrayList<>();

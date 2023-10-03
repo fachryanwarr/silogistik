@@ -1,6 +1,5 @@
 package apap.ti.silogistik2106751070.service;
 
-import apap.ti.silogistik2106751070.dto.request.UpdateGudangRequestDTO;
 import apap.ti.silogistik2106751070.model.Gudang;
 import apap.ti.silogistik2106751070.model.GudangBarang;
 import apap.ti.silogistik2106751070.repository.GudangBarangDb;
@@ -8,7 +7,6 @@ import apap.ti.silogistik2106751070.repository.GudangDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -33,7 +31,7 @@ public class GudangServiceImpl implements GudangService{
     }
 
     @Override
-    public Gudang getGudangById(BigInteger id) {
+    public Gudang getGudangById(Long id) {
         for (Gudang gudang: getAllGudang()) {
             if (gudang.getId().equals(id)) {
                 return gudang;

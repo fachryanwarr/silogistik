@@ -10,5 +10,5 @@ public interface GudangBarangService {
 
     List<GudangBarang> getAllGudangBarang();
 
-    GudangBarang getGudangBarangById(BigInteger id);
+    GudangBarang getGudangBarangById(Long id);
 }

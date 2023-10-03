@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class GudangController {
     }
 
     @GetMapping("/gudang/{id}")
-    public String viewDetailGudang(@PathVariable(value = "id") BigInteger id, Model model) {
+    public String viewDetailGudang(@PathVariable(value = "id") Long id, Model model) {
         Gudang gudang = gudangService.getGudangById(id);
         var gudangResponse = gudangMapper.gudangToReadGudangResponseDTO(gudang);
 
@@ -61,7 +60,7 @@ public class GudangController {
     }
 
     @GetMapping("/gudang/{idGudang}/restock-barang")
-    public String formRestockBarang(@PathVariable(value = "idGudang") BigInteger id, Model model) {
+    public String formRestockBarang(@PathVariable(value = "idGudang") Long id, Model model) {
         Gudang gudang = gudangService.getGudangById(id);
         UpdateGudangRequestDTO gudangDTO = gudangMapper.gudangToUpdateGudangRequestDTO(gudang);
         List<Barang> listBarang = barangService.getAllBarangSortedByMerk();

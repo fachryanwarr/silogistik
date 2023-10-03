@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Repository
-public interface BarangDb extends JpaRepository<Barang, String> {
+public interface BarangDb extends JpaRepository<Barang, Long> {
     @Query("SELECT b.sku FROM Barang b")
     List<String> findAllSkus();
 

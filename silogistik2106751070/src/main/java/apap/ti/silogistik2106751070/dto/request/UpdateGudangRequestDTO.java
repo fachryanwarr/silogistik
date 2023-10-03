@@ -14,6 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateGudangRequestDTO extends CreateGudangRequestDTO {
-    private BigInteger id;
+    private Long id;
     private List<GudangBarang> listGudangBarang;
 }
