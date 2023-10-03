@@ -20,4 +20,6 @@ public interface BarangService {
     String getNamaTipeBarang(Integer tipeBarang);
 
     long getNextNumForSKU(Integer tipeBarang);
+
+    void updateBarang(Barang barang);
 }

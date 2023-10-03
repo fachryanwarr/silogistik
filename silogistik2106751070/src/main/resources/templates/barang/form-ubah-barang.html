@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <title>Ubah Barang</title>
+  </head>
+
+  <body class="bg-[#111827]">
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="min-h-screen">
+      <div
+        class="mx-auto w-[70%] rounded-xl overflow-hidden border border-gray-500 mt-10"
+      >
+        <div class="text-center text-white p-3 bg-slate-800">
+          <h1 class="text-2xl font-bold">Ubah Barang</h1>
+        </div>
+        <div class="mx-auto p-10">
+          <form
+            th:action="@{'/barang/' + ${barangDTO.sku} + '/ubah'}"
+            th:object="${barangDTO}"
+            method="POST"
+          >
+            <label for="sku" class="block mb-2 font-medium text-white"
+              >SKU</label
+            >
+            <input
+              type="text"
+              class="hover:cursor-not-allowed mb-5 border w-full text-sm rounded-lg block p-2.5 bg-gray-800 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              required
+              disabled="true"
+              th:field="*{sku}"
+            />
+
+            <label for="merk" class="block mb-2 font-medium text-white"
+              >Merk Barang</label
+            >
+            <input
+              type="text"
+              class="mb-5 border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              required
+              th:field="*{merk}"
+            />
+
+            <label for="namaTipeBarang" class="block mb-2 font-medium text-white"
+              >Tipe Barang</label
+            >
+            <input
+              type="text"
+              class="hover:cursor-not-allowed mb-5 border w-full text-sm rounded-lg block p-2.5 bg-gray-800 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              required
+              disabled="true"
+              th:field="*{namaTipeBarang}"
+            />
+            <input type="hidden" th:field="*{tipeBarang}">
+
+            <label for="merk" class="block mb-2 font-medium text-white"
+              >Harga</label
+            >
+            <input
+              type="number"
+              class="mb-5 border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              required
+              th:field="*{harga}"
+            />
+            <div class="flex mx-auto justify-center gap-5 mt-5">
+              <a
+                th:href="@{'/barang/' + ${barangDTO.sku}}"
+                type="button"
+                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                >Batal</a
+              >
+              <button
+                type="submit"
+                class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <nav th:replace="~{fragments/footer :: footer}"></nav>
+  </body>
+</html>

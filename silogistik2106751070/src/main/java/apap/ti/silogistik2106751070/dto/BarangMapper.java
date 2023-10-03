@@ -1,6 +1,7 @@
 package apap.ti.silogistik2106751070.dto;
 
 import apap.ti.silogistik2106751070.dto.request.CreateBarangRequestDTO;
+import apap.ti.silogistik2106751070.dto.request.UpdateBarangRequestDTO;
 import apap.ti.silogistik2106751070.dto.response.ReadBarangResponseDTO;
 import apap.ti.silogistik2106751070.model.Barang;
 import apap.ti.silogistik2106751070.model.GudangBarang;
@@ -13,6 +14,10 @@ public interface BarangMapper {
     Barang createBarangRequestDTOToBarang(CreateBarangRequestDTO createBarangRequestDTO);
 
     ReadBarangResponseDTO barangToReadBarangResponseDTO(Barang barang);
+
+    UpdateBarangRequestDTO barangToUpdateBarangRequestDTO(Barang barang);
+
+    Barang updateBarangRequestDTOToBarang(UpdateBarangRequestDTO updateBarangRequestDTO);
 
     @AfterMapping
     default void setExtraAttribute(@MappingTarget ReadBarangResponseDTO barangResponseDTO, Barang barang) {
@@ -38,5 +43,19 @@ public interface BarangMapper {
 
         //set tipe barang
         barangResponseDTO.setNamaTipeBarang(tipeBarang);
+    }
+
+    @AfterMapping
+    default void setNamaTipeBarang(@MappingTarget UpdateBarangRequestDTO barangRequestDTO, Barang barang) {
+        String tipeBarang = switch (barang.getTipeBarang()) {
+            case 1 -> "ELEC";
+            case 2 -> "CLOT";
+            case 3 -> "FOOD";
+            case 4 -> "COSM";
+            default -> "TOOL";
+        };
+
+        //set tipe barang
+        barangRequestDTO.setNamaTipeBarang(tipeBarang);
     }
 }

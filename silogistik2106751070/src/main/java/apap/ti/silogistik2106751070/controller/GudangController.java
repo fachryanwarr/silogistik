@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
@@ -47,11 +48,17 @@ public class GudangController {
 
     @GetMapping("gudang/cari-barang")
     public String cariBarang(@RequestParam(name = "sku", required = false) String skuBarang, Model model) {
+        String successMessage = (String) model.getAttribute("successMessage");
+
         if (skuBarang != null && !skuBarang.isBlank()) {
             var barang = barangService.getBarangBySku(skuBarang);
 
             model.addAttribute("listGudangBarang", barang.getListGudangBarang());
             model.addAttribute("selectedValue", skuBarang);
+        }
+
+        if (successMessage != null) {
+            model.addAttribute("successMessage", successMessage);
         }
 
         model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
@@ -86,10 +93,12 @@ public class GudangController {
     }
 
     @PostMapping("/gudang/{idGudang}/restock-barang")
-    public RedirectView updateRestockBarang(@ModelAttribute UpdateGudangRequestDTO gudangDTO, Model model) {
+    public RedirectView updateRestockBarang(@ModelAttribute UpdateGudangRequestDTO gudangDTO, RedirectAttributes redirectAttributes, Model model) {
         Gudang gudang = gudangMapper.updateGudangRequestDTOToGudang(gudangDTO);
 
         gudangService.restockBarang(gudang);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Berhasil restock barang");
 
         return new RedirectView("/gudang/" + gudangDTO.getId());
     }

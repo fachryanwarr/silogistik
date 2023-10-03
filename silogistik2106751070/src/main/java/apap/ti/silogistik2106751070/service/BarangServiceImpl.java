@@ -63,4 +63,13 @@ public class BarangServiceImpl implements BarangService {
     public long getNextNumForSKU(Integer tipeBarang) {
         return 1 + barangDb.countByTipeBarang(tipeBarang);
     }
+
+    @Override
+    public void updateBarang(Barang barangFromDTO) {
+        Barang barang = getBarangBySku(barangFromDTO.getSku());
+
+        barang.setHarga(barangFromDTO.getHarga());
+        barang.setMerk(barangFromDTO.getMerk());
+        barangDb.save(barang);
+    }
 }
