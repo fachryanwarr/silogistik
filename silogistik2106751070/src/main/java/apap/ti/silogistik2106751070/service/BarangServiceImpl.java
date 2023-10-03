@@ -49,6 +49,17 @@ public class BarangServiceImpl implements BarangService {
     }
 
     @Override
+    public String getNamaTipeBarang(Integer tipeBarang) {
+        return switch (tipeBarang) {
+            case 1 -> "ELEC";
+            case 2 -> "CLOT";
+            case 3 -> "FOOD";
+            case 4 -> "COSM";
+            default -> "TOOL";
+        };
+    }
+
+    @Override
     public long getNextNumForSKU(Integer tipeBarang) {
         return 1 + barangDb.countByTipeBarang(tipeBarang);
     }

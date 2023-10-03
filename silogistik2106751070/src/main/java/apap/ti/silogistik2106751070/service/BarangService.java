@@ -17,5 +17,7 @@ public interface BarangService {
 
     long getCount();
 
+    String getNamaTipeBarang(Integer tipeBarang);
+
     long getNextNumForSKU(Integer tipeBarang);
 }
