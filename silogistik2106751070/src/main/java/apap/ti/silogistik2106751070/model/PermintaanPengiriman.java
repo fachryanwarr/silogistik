@@ -31,7 +31,7 @@ public class PermintaanPengiriman implements Comparable<PermintaanPengiriman>{
 
     @NotNull
     @Column(name = "is_canceled", nullable = false)
-    private Boolean isCanceled = true;
+    private Boolean isCanceled = false;
 
     @NotNull
     @Column(name = "nama_penerima", nullable = false)
