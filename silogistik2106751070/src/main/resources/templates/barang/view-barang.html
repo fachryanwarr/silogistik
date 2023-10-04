@@ -38,7 +38,7 @@
             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
           />
         </svg>
-        <p th:text="${successMessage}"></p>
+        <p class="font-medium" th:text="${successMessage}"></p>
         <button
           type="button"
           class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex items-center justify-center h-8 w-8 text-gray-800"
@@ -107,9 +107,7 @@
             <p
               class=""
               th:text="': Rp ' + ${#numbers.formatDecimal(barang.harga, 0, 'COMMA', 2, 'POINT')}"
-            >
-              :
-            </p>
+            ></p>
           </div>
           <div class="mt-10">
             <p class="text-xl font-semibold text-blue-300">Daftar gudang</p>
