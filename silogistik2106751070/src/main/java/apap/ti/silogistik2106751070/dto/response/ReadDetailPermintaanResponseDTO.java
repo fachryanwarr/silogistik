@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
 @Data
 public class ReadDetailPermintaanResponseDTO extends ReadPermintaanPengirimanResponseDTO{
     private Boolean isCanceled = true;
-    private LocalDate tanggalPengiriman;
+    private Date tanggalPengiriman;
     private Integer biayaPengiriman;
     private Integer jenisLayanan;
     private Date waktuPermintaan;

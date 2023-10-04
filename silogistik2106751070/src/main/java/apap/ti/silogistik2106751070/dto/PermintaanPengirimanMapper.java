@@ -22,8 +22,9 @@ public interface PermintaanPengirimanMapper {
     @AfterMapping
     default void setWaktuPermintaanFormatted(@MappingTarget ReadPermintaanPengirimanResponseDTO permintaanResponseDTO, PermintaanPengiriman permintaanPengiriman) {
         var format = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
+        var formatTanggal = new SimpleDateFormat("dd-MM-yyyy");
 
         permintaanResponseDTO.setWaktuPermintaanFormatted(format.format(permintaanPengiriman.getWaktuPermintaan()));
-        permintaanResponseDTO.setTanggalPengirimanFormatted(permintaanPengiriman.getTanggalPengiriman().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        permintaanResponseDTO.setTanggalPengirimanFormatted(formatTanggal.format(permintaanPengiriman.getTanggalPengiriman()));
     }
 }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +44,7 @@ public class PermintaanPengiriman implements Comparable<PermintaanPengiriman>{
     @NotNull
     @Column(name = "tanggal_pengiriman", nullable = false)
     @DateTimeFormat(style = "dd-MM-yyyy")
-    private LocalDate tanggalPengiriman;
+    private Date tanggalPengiriman;
 
     @NotNull
     @Column(name = "biaya_pengiriman", nullable = false)

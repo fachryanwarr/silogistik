@@ -1,18 +1,28 @@
 package apap.ti.silogistik2106751070.controller;
 
 import apap.ti.silogistik2106751070.dto.PermintaanPengirimanMapper;
+import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
 import apap.ti.silogistik2106751070.dto.response.ReadDetailPermintaanResponseDTO;
-import apap.ti.silogistik2106751070.dto.response.ReadPermintaanPengirimanResponseDTO;
+import apap.ti.silogistik2106751070.model.Barang;
+import apap.ti.silogistik2106751070.model.Karyawan;
 import apap.ti.silogistik2106751070.model.PermintaanPengiriman;
+import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
+import apap.ti.silogistik2106751070.service.BarangService;
+import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Controller
 public class PermintaanPengirimanController {
@@ -22,6 +32,12 @@ public class PermintaanPengirimanController {
 
     @Autowired
     PermintaanPengirimanMapper permintaanPengirimanMapper;
+
+    @Autowired
+    KaryawanService karyawanService;
+
+    @Autowired
+    BarangService barangService;
 
     @GetMapping("/permintaan-pengiriman")
     public String viewAllPermintaan(Model model) {
@@ -40,5 +56,44 @@ public class PermintaanPengirimanController {
         model.addAttribute("index", 3);
         model.addAttribute("permintaanPengiriman", detailPermintaanDTO);
         return "permintaanPengiriman/view-permintaanPengiriman";
+    }
+
+    @GetMapping("/permintaan-pengiriman/tambah")
+    public String formTambahPermintaan(Model model) {
+        List<Karyawan> listKaryawan = karyawanService.getAllKaryawan();
+        List<Barang> listBarang = barangService.getAllBarangSortedByMerk();
+
+        var permintaanPengirimanDTO = new CreatePermintaanPengirimanRequestDTO();
+
+        model.addAttribute("listKaryawan", listKaryawan);
+        model.addAttribute("listBarang", listBarang);
+        model.addAttribute("permintaanPengirimanDTO", permintaanPengirimanDTO);
+
+        return "permintaanPengiriman/form-permintaanPengiriman";
+    }
+
+    @PostMapping(value="/permintaan-pengiriman/tambah", params = {"addRow"})
+    public String addRowPermintaanPengiriman(@ModelAttribute CreatePermintaanPengirimanRequestDTO permintaanPengirimanDTO, Model model) {
+        if (permintaanPengirimanDTO.getListPermintaanPengirimanBarang() == null || permintaanPengirimanDTO.getListPermintaanPengirimanBarang().size() == 0) {
+            permintaanPengirimanDTO.setListPermintaanPengirimanBarang(new ArrayList<>());
+        }
+
+        permintaanPengirimanDTO.getListPermintaanPengirimanBarang().add(new PermintaanPengirimanBarang());
+
+        List<Karyawan> listKaryawan = karyawanService.getAllKaryawan();
+        List<Barang> listBarang = barangService.getAllBarangSortedByMerk();
+
+        model.addAttribute("permintaanPengirimanDTO", permintaanPengirimanDTO);
+        model.addAttribute("listKaryawan", listKaryawan);
+        model.addAttribute("listBarang", listBarang);
+
+        return "permintaanPengiriman/form-permintaanPengiriman";
+    }
+
+    @PostMapping("/permintaan-pengiriman/tambah")
+    public RedirectView tambahPermintaanPengiriman(@ModelAttribute CreatePermintaanPengirimanRequestDTO permintaanPengirimanDTO, RedirectAttributes redirectAttributes) {
+
+
+        return new RedirectView("/permintaan-pengiriman");
     }
 }

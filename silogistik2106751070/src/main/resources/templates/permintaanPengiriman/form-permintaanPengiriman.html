@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <title>Tambah Permintaan Pengiriman</title>
+  </head>
+
+  <body class="bg-[#111827]">
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="min-h-screen">
+      <div
+        class="mx-auto w-[70%] rounded-xl overflow-hidden border border-gray-500 mt-10"
+      >
+        <div class="text-center text-white p-3 bg-slate-800">
+          <h1 class="text-2xl font-bold">Buat Permintaan Pengiriman</h1>
+        </div>
+        <div class="mx-auto p-10">
+          <form
+            th:action="@{/permintaan-pengiriman/tambah}"
+            th:object="${permintaanPengirimanDTO}"
+            method="POST"
+          >
+            <div class="grid grid-cols-2 gap-8">
+              <div>
+                <label for="karyawan" class="block mb-2 font-medium text-white"
+                  >Karyawan Bertugas</label
+                >
+                <select
+                  th:field="*{karyawan.id}"
+                  class="w-full border text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  aria-placeholder="Pilih Karyawan"
+                >
+                  >
+                  <div th:each="karyawanExisting: ${listKaryawan}">
+                    <option
+                      th:value="${karyawanExisting.id}"
+                      th:text="${karyawanExisting.nama}"
+                    ></option>
+                  </div>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="tanggalPengiriman"
+                  class="block mb-2 font-medium text-white"
+                  >Tanggal Pengiriman</label
+                >
+                <input
+                  type="date"
+                  class="border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  required
+                  th:field="*{tanggalPengiriman}"
+                />
+              </div>
+              <div>
+                <label for="karyawan" class="block mb-2 font-medium text-white"
+                  >Nama Penerima</label
+                >
+                <input
+                  type="text"
+                  class="border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  required
+                  th:field="*{namaPenerima}"
+                />
+              </div>
+              <div>
+                <label
+                  for="jenisLayanan"
+                  class="block mb-2 font-medium text-white"
+                  >Jenis Layanan</label
+                >
+                <select
+                  th:field="*{jenisLayanan}"
+                  class="border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                >
+                  >
+                  <option th:value="1">Same Day</option>
+                  <option th:value="2">Kilat</option>
+                  <option th:value="3">Reguler</option>
+                  <option th:value="4">Hemat</option>
+                </select>
+              </div>
+              <div>
+                <label for="karyawan" class="block mb-2 font-medium text-white"
+                  >Alamat Penerima</label
+                >
+                <input
+                  type="text"
+                  class="border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  required
+                  th:field="*{alamatPenerima}"
+                />
+              </div>
+              <div>
+                <label
+                  for="biayaPengiriman"
+                  class="block mb-2 font-medium text-white"
+                  >Biaya Pengiriman</label
+                >
+                <input
+                  type="number"
+                  class="border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  required
+                  th:field="*{biayaPengiriman}"
+                />
+              </div>
+            </div>
+            <div class="flex justify-end mt-5">
+              <button
+                type="submit"
+                name="addRow"
+                class="mb-5 text-white focus:outline-none focus:ring-4 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+              >
+                + Tambah Barang
+              </button>
+            </div>
+            <table class="w-full text-sm text-left text-gray-400">
+              <thead
+                class="text-md bg-gray-700 text-gray-400 text=center font-semibold"
+              >
+                <tr>
+                  <th scope="col" class="px-4 py-3">#</th>
+                  <th scope="col" class="px-4 py-3">Barang</th>
+                  <th scope="col" class="px-4 py-3">Kuantitas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  th:each="permintaanPengirimanBarang, iterationStatus: *{listPermintaanPengirimanBarang}"
+                  class="border-b bg-gray-800 border-gray-700"
+                >
+                  <td
+                    th:text="${iterationStatus.index + 1}"
+                    scope="row"
+                    class="px-6 py-4 font-medium whitespace-nowrap text-white"
+                  ></td>
+                  <td>
+                    <select
+                      th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].Barang.sku}"
+                      class="border text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      >
+                      <div th:each="barangExisting: ${listBarang}">
+                        <option
+                          th:value="${barangExisting.sku}"
+                          th:text="${barangExisting.merk}"
+                        ></option>
+                      </div>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      class="border text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                      required
+                      th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].kuantitasPengiriman}"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="flex mx-auto justify-center gap-5 mt-5">
+              <a
+                th:href="@{/permintaan-pengiriman}"
+                type="button"
+                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                >Batal</a
+              >
+              <button
+                type="submit"
+                class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <nav th:replace="~{fragments/footer :: footer}"></nav>
+  </body>
+</html>

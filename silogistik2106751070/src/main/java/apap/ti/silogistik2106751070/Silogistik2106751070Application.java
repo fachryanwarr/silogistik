@@ -84,10 +84,7 @@ public class Silogistik2106751070Application {
 				permintaanPengirimanDTO.setNamaPenerima(faker.name().firstName());
 				permintaanPengirimanDTO.setAlamatPenerima(faker.address().streetAddress());
 				//random past date ten days from now
-				Date utilDate = fakeDate.past(10, TimeUnit.DAYS);
-				permintaanPengirimanDTO.setTanggalPengiriman(utilDate.toInstant()
-						.atZone(ZoneId.systemDefault())
-						.toLocalDate());
+				permintaanPengirimanDTO.setTanggalPengiriman(fakeDate.past(10, TimeUnit.DAYS));
 
 				permintaanPengirimanDTO.setBiayaPengiriman(10000 + (int) Math.floor(Math.random() * 90000));
 				permintaanPengirimanDTO.setJenisLayanan(noJenisLayanan);
