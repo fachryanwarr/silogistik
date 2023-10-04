@@ -53,7 +53,7 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
 
     @Override
     public List<PermintaanPengiriman> getAllPermintaanPengirimanOrderByWaktu() {
-        return permintaanPengirimanDb.findAllByIsCanceledFalseOrderByWaktuPermintaan();
+        return permintaanPengirimanDb.findAllByIsCanceledFalseOrderByWaktuPermintaanDesc();
     }
 
     @Override
