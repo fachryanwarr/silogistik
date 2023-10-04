@@ -7,10 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "permintaan_pengiriman")
-public class PermintaanPengiriman {
+public class PermintaanPengiriman implements Comparable<PermintaanPengiriman>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,6 +44,7 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Column(name = "tanggal_pengiriman", nullable = false)
+    @DateTimeFormat(style = "dd-MM-yyyy")
     private LocalDate tanggalPengiriman;
 
     @NotNull
@@ -55,7 +57,8 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Column(name = "waktu_pengiriman", nullable = false)
-    private LocalTime waktuPermintaan;
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
+    private Date waktuPermintaan;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_karyawan", referencedColumnName = "id")
@@ -63,4 +66,9 @@ public class PermintaanPengiriman {
 
     @OneToMany(mappedBy = "permintaanPengiriman", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang = new ArrayList<>();
+
+    @Override
+    public int compareTo(PermintaanPengiriman o) {
+        return this.getWaktuPermintaan().compareTo(o.getWaktuPermintaan());
+    }
 }

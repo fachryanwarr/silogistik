@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class Karyawan {
 
     @NotNull
     @Column(name = "tanggal_lahir", nullable = false)
-    private Date tanggalLahir;
+    private LocalDate tanggalLahir;
 
     @OneToMany(mappedBy = "karyawan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PermintaanPengiriman> listPermintaanPengiriman = new ArrayList<>();
