@@ -18,7 +18,10 @@
   <body class="bg-[#111827]">
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-    <div th:if="${successMessage != null}" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-10 rounded-xl overflow-hidden w-[40%]">
+    <div
+      th:if="${successMessage != null}"
+      class="fixed top-5 left-1/2 transform -translate-x-1/2 z-10 rounded-xl overflow-hidden w-[40%]"
+    >
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
       <div
         id="alert-1"
@@ -131,7 +134,7 @@
       </div>
     </div>
 
-    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 
     <script>
       $(document).ready(function () {

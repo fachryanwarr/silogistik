@@ -34,7 +34,11 @@
             class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
           >
             <div th:each="barang : ${listBarang}">
-              <option th:value="${barang.sku}" th:text="${barang.merk}" th:selected="${barang.sku == selectedValue}"></option>
+              <option
+                th:value="${barang.sku}"
+                th:text="${barang.merk}"
+                th:selected="${barang.sku == selectedValue}"
+              ></option>
             </div>
           </select>
           <button
@@ -47,30 +51,36 @@
       </div>
       <div th:if="${listGudangBarang != null} ">
         <div class="px-10 text-white mb-10">
-            <table id="tableCariBarang" class="display">
-              <thead class="font-bold">
-                <tr>
-                  <th>#</th>
-                  <th>Nama Gudang</th>
-                  <th>Alamat Gudang</th>
-                  <th>Stok</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="gudangBarang, iterStat : ${listGudangBarang}">
-                  <td th:text="${iterStat.index + 1}"></td>
-                  <td><a th:href="@{'/gudang/' + ${gudangBarang.Gudang.id}}" th:text="${gudangBarang.Gudang.nama}" class="text-blue-100 hover:underline"></a></td>
-    
-                  <td th:text="${gudangBarang.Gudang.alamatGudang}"></td>
-                  <td th:text="${gudangBarang.stok}"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table id="tableCariBarang" class="display">
+            <thead class="font-bold">
+              <tr>
+                <th>#</th>
+                <th>Nama Gudang</th>
+                <th>Alamat Gudang</th>
+                <th>Stok</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="gudangBarang, iterStat : ${listGudangBarang}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td>
+                  <a
+                    th:href="@{'/gudang/' + ${gudangBarang.Gudang.id}}"
+                    th:text="${gudangBarang.Gudang.nama}"
+                    class="text-blue-100 hover:underline"
+                  ></a>
+                </td>
+
+                <td th:text="${gudangBarang.Gudang.alamatGudang}"></td>
+                <td th:text="${gudangBarang.stok}"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
 
-    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 
     <script>
       $(document).ready(function () {

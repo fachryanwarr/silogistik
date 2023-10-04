@@ -48,7 +48,9 @@
               th:field="*{merk}"
             />
 
-            <label for="namaTipeBarang" class="block mb-2 font-medium text-white"
+            <label
+              for="namaTipeBarang"
+              class="block mb-2 font-medium text-white"
               >Tipe Barang</label
             >
             <input
@@ -58,7 +60,7 @@
               disabled="true"
               th:field="*{namaTipeBarang}"
             />
-            <input type="hidden" th:field="*{tipeBarang}">
+            <input type="hidden" th:field="*{tipeBarang}" />
 
             <label for="merk" class="block mb-2 font-medium text-white"
               >Harga</label
@@ -88,6 +90,6 @@
       </div>
     </div>
 
-    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
   </body>
 </html>

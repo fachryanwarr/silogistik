@@ -8,7 +8,10 @@
     <meta charset="UTF-8" />
     <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
     <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
-    <object th:insert="~{fragments/common :: datatable}" th:remove="tag"></object>
+    <object
+      th:insert="~{fragments/common :: datatable}"
+      th:remove="tag"
+    ></object>
     <title>Daftar Gudang</title>
   </head>
 
@@ -49,7 +52,7 @@
       </div>
     </div>
 
-    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 
     <script>
       $(document).ready(function () {

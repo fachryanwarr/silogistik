@@ -42,6 +42,11 @@ public class PermintaanPengirimanController {
 
     @GetMapping("/permintaan-pengiriman")
     public String viewAllPermintaan(Model model) {
+        String successMessage = (String) model.getAttribute("successMessage");
+
+        if (successMessage != null) {
+            model.addAttribute("successMessage", successMessage);
+        }
 
         model.addAttribute("listPermintaan", permintaanPengirimanService.getAllPermintaanPengirimanFormatted());
         model.addAttribute("index", "3");
@@ -98,6 +103,8 @@ public class PermintaanPengirimanController {
 
         var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
         permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Berhasil membuat permintaan pengiriman");
 
         return new RedirectView("/permintaan-pengiriman");
     }

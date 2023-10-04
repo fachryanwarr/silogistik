@@ -45,11 +45,11 @@
               class="mb-5 border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             >
               >
-              <option th:value=1>Produk Elektronik</option>
-              <option th:value=2>Pakaian & Aksesoris</option>
-              <option th:value=3>Makanan & Minuman</option>
-              <option th:value=4>Kosmetik</option>
-              <option th:value=5>Perlengkapan Rumah</option>
+              <option th:value="1">Produk Elektronik</option>
+              <option th:value="2">Pakaian & Aksesoris</option>
+              <option th:value="3">Makanan & Minuman</option>
+              <option th:value="4">Kosmetik</option>
+              <option th:value="5">Perlengkapan Rumah</option>
             </select>
 
             <label for="merk" class="block mb-2 font-medium text-white"
@@ -80,6 +80,6 @@
       </div>
     </div>
 
-    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
   </body>
 </html>
