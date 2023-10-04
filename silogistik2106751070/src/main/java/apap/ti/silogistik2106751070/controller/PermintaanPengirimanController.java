@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -92,7 +93,11 @@ public class PermintaanPengirimanController {
 
     @PostMapping("/permintaan-pengiriman/tambah")
     public RedirectView tambahPermintaanPengiriman(@ModelAttribute CreatePermintaanPengirimanRequestDTO permintaanPengirimanDTO, RedirectAttributes redirectAttributes) {
+        permintaanPengirimanDTO.setWaktuPermintaan(new Date());
+        permintaanPengirimanDTO.setNomorPengiriman(permintaanPengirimanService.generateNomorPengiriman(permintaanPengirimanDTO));
 
+        var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
+        permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
 
         return new RedirectView("/permintaan-pengiriman");
     }

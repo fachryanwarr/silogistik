@@ -1,5 +1,6 @@
 package apap.ti.silogistik2106751070.service;
 
+import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
 import apap.ti.silogistik2106751070.dto.response.ReadPermintaanPengirimanResponseDTO;
 import apap.ti.silogistik2106751070.model.PermintaanPengiriman;
 
@@ -17,4 +18,6 @@ public interface PermintaanPengirimanService {
     PermintaanPengiriman getPermintaanPengirimanById(Long id);
 
     long getCount();
+
+    String generateNomorPengiriman(CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO);
 }
