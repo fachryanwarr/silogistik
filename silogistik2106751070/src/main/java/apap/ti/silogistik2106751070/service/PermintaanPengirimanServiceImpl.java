@@ -91,4 +91,10 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
 
         return "REQ" + (totalBarangDipesan % 100) + jenisLayanan + timeFormat.format(createPermintaanPengirimanRequestDTO.getWaktuPermintaan());
     }
+
+    @Override
+    public void cancelPermintaan(PermintaanPengiriman permintaanPengiriman) {
+        permintaanPengiriman.setIsCanceled(true);
+        permintaanPengirimanDb.save(permintaanPengiriman);
+    }
 }

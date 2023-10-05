@@ -20,4 +20,6 @@ public interface PermintaanPengirimanService {
     long getCount();
 
     String generateNomorPengiriman(CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO);
+
+    void cancelPermintaan(PermintaanPengiriman permintaanPengiriman);
 }

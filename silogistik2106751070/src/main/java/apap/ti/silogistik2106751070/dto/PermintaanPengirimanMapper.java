@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 @Mapper(componentModel = "spring")
 public interface PermintaanPengirimanMapper {
@@ -26,5 +26,15 @@ public interface PermintaanPengirimanMapper {
 
         permintaanResponseDTO.setWaktuPermintaanFormatted(format.format(permintaanPengiriman.getWaktuPermintaan()));
         permintaanResponseDTO.setTanggalPengirimanFormatted(formatTanggal.format(permintaanPengiriman.getTanggalPengiriman()));
+    }
+
+    @AfterMapping
+    default void setIsCancelAble(@MappingTarget ReadDetailPermintaanResponseDTO detailPermintaanResponseDTO, PermintaanPengiriman permintaanPengiriman) {
+        Calendar now = Calendar.getInstance();
+        Calendar waktuPermintaan = Calendar.getInstance();
+        waktuPermintaan.setTime(permintaanPengiriman.getWaktuPermintaan());
+        waktuPermintaan.add(Calendar.HOUR_OF_DAY , 24);
+
+        detailPermintaanResponseDTO.setCancelAble(!now.after(waktuPermintaan));
     }
 }

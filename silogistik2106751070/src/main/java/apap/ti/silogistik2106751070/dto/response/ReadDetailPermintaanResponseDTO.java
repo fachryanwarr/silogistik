@@ -22,4 +22,5 @@ public class ReadDetailPermintaanResponseDTO extends ReadPermintaanPengirimanRes
     private Date waktuPermintaan;
     private Karyawan karyawan;
     private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang;
+    private boolean isCancelAble;
 }

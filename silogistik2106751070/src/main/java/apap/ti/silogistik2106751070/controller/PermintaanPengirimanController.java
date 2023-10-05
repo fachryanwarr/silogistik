@@ -108,4 +108,14 @@ public class PermintaanPengirimanController {
 
         return new RedirectView("/permintaan-pengiriman");
     }
+
+    @GetMapping("/permintaan-pengiriman/{id}/cancel")
+    public RedirectView cancelPermintaan(@PathVariable(value = "id") Long idPermintaan, RedirectAttributes redirectAttributes) {
+        var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaan);
+        permintaanPengirimanService.cancelPermintaan(permintaanPengiriman);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Berhasil membatalkan permintaan pengiriman dengan nomor pengiriman " + permintaanPengiriman.getNomorPengiriman());
+
+        return new RedirectView("/permintaan-pengiriman");
+    }
 }
