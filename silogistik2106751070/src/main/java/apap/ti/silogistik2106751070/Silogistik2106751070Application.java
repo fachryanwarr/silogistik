@@ -17,6 +17,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -61,7 +62,9 @@ public class Silogistik2106751070Application {
 				karyawanDTO.setTanggalLahir(fakeDate.birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
 				var karyawan = karyawanMapper.createKaryawanRequestDTOToKaryawan(karyawanDTO);
-				karyawanService.saveKaryawan(karyawan);
+				try {
+					karyawanService.saveKaryawan(karyawan);
+				} catch (DataIntegrityViolationException ignored) {}
 			}
 
 			//data dummy permintaan pengiriman
@@ -91,7 +94,9 @@ public class Silogistik2106751070Application {
 				permintaanPengirimanDTO.setKaryawan(karyawanService.getKaryawanById(1 + (long) Math.floor(Math.random() * 10)));
 
 				var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
-				permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
+				try {
+					permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
+				} catch (DataIntegrityViolationException ignored){}
 			}
 
 			//data dummy gudang
@@ -100,7 +105,9 @@ public class Silogistik2106751070Application {
 				gudangDTO.setAlamatGudang(faker.address().streetAddress());
 
 				var gudang = gudangMapper.createGudangRequestDTOToGudang(gudangDTO);
-				gudangService.saveGudang(gudang);
+				try {
+					gudangService.saveGudang(gudang);
+				} catch (DataIntegrityViolationException ignored) {}
 			}
 
 			//data dummy barang
@@ -120,7 +127,9 @@ public class Silogistik2106751070Application {
 				barangDTO.setHarga(10000 + (long) Math.floor(Math.random() * 1000000));
 
 				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
-				barangService.saveBarang(barang);
+				try {
+					barangService.saveBarang(barang);
+				} catch (DataIntegrityViolationException ignored) {}
 			}
 
 			List<String> listSKU = barangService.getAllSku();
@@ -131,7 +140,9 @@ public class Silogistik2106751070Application {
 				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 29))));
 				gudangBarang.setGudang(gudangService.getGudangById((long) Math.floor(1 + Math.random() * 5)));
 				gudangBarang.setStok((int) Math.floor(1 + Math.random() * 99));
-				gudangBarangService.saveGudangBarang(gudangBarang);
+				try {
+					gudangBarangService.saveGudangBarang(gudangBarang);
+				} catch (DataIntegrityViolationException ignored) {}
 			}
 
 			//data dummy permintaan pengiriman barang
@@ -140,7 +151,9 @@ public class Silogistik2106751070Application {
 				permintaanPengirimanBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 29))));
 				permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengirimanService.getPermintaanPengirimanById((long) Math.floor(1 + Math.random() * 30)));
 				permintaanPengirimanBarang.setKuantitasPengiriman((int) Math.floor(1 + Math.random() * 10));
-				permintaanPengirimanBarangService.savePermintaanPengirimanBarang(permintaanPengirimanBarang);
+				try {
+					permintaanPengirimanBarangService.savePermintaanPengirimanBarang(permintaanPengirimanBarang);
+				} catch (DataIntegrityViolationException ignored) {}
 			}
 		};
 	}

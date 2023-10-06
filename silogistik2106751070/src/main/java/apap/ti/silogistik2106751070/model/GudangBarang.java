@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "gudang_barang")
+@Table(name = "gudang_barang", uniqueConstraints = {@UniqueConstraint(columnNames = {"id_gudang", "sku_barang"})})
 public class GudangBarang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
