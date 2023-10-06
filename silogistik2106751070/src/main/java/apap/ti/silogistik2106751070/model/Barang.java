@@ -25,7 +25,7 @@ public class Barang {
     private Integer tipeBarang;
 
     @NotNull
-    @Column(name = "merk", nullable = false)
+    @Column(name = "merk", nullable = false, unique = true)
     private String merk;
 
     @NotNull

@@ -7,6 +7,7 @@ import apap.ti.silogistik2106751070.model.Barang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -90,7 +91,13 @@ public class BarangController {
         long noSKU = barangService.getNextNumForSKU(barang.getTipeBarang());
 
         barang.setSku(namaTipeBarang + String.format("%03d", noSKU));
-        barangService.saveBarang(barang);
+
+        try {
+            barangService.saveBarang(barang);
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("error", "Merk " + barang.getMerk() + " sudah ada!");
+            return new RedirectView("/barang/tambah");
+        }
 
         redirectAttributes.addFlashAttribute("successMessage", "Berhasil menambah barang: " + barang.getMerk());
 
@@ -109,10 +116,28 @@ public class BarangController {
     }
 
     @PostMapping("/barang/{sku}/ubah")
-    public RedirectView ubahBarang(@ModelAttribute UpdateBarangRequestDTO barangRequestDTO, RedirectAttributes redirectAttributes) {
+    public RedirectView ubahBarang(@Valid @ModelAttribute UpdateBarangRequestDTO barangRequestDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errors = new StringBuilder();
+            errors.append("Invalid input").append(" ");
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.append("| ").append(error.getDefaultMessage()).append(" | ");
+            }
+
+            redirectAttributes.addFlashAttribute("error", errors);
+
+            return new RedirectView("/barang/" + barangRequestDTO.getSku() + "/ubah");
+        }
+
         Barang barang = barangMapper.updateBarangRequestDTOToBarang(barangRequestDTO);
 
-        barangService.updateBarang(barang);
+        try {
+            barangService.updateBarang(barang);
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("error", "Merk " + barang.getMerk() + " sudah ada!");
+            return new RedirectView("/barang/" + barang.getSku() + "/ubah");
+        }
 
         redirectAttributes.addFlashAttribute("successMessage", "Berhasil meng-update data barang dengan SKU " + barang.getSku());
 
