@@ -5,9 +5,12 @@ import apap.ti.silogistik2106751070.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.UpdateBarangRequestDTO;
 import apap.ti.silogistik2106751070.model.Barang;
 import apap.ti.silogistik2106751070.service.BarangService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,7 +70,20 @@ public class BarangController {
     }
 
     @PostMapping("/barang/tambah")
-    public RedirectView tambahBarang(@ModelAttribute CreateBarangRequestDTO barangDTO, RedirectAttributes redirectAttributes, Model model) {
+    public RedirectView tambahBarang(@Valid @ModelAttribute CreateBarangRequestDTO barangDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errors = new StringBuilder();
+            errors.append("Invalid input").append(" ");
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.append("| ").append(error.getDefaultMessage()).append(" | ");
+            }
+
+            redirectAttributes.addFlashAttribute("error", errors);
+
+            return new RedirectView("/barang/tambah");
+        }
+
         Barang barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
 
         String namaTipeBarang = barangService.getNamaTipeBarang(barang.getTipeBarang());
@@ -76,7 +92,7 @@ public class BarangController {
         barang.setSku(namaTipeBarang + String.format("%03d", noSKU));
         barangService.saveBarang(barang);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Berhasil menambah barang");
+        redirectAttributes.addFlashAttribute("successMessage", "Berhasil menambah barang: " + barang.getMerk());
 
         return new RedirectView("/barang");
     }
@@ -98,7 +114,7 @@ public class BarangController {
 
         barangService.updateBarang(barang);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Berhasil meng-update data barang");
+        redirectAttributes.addFlashAttribute("successMessage", "Berhasil meng-update data barang dengan SKU " + barang.getSku());
 
         return new RedirectView("/barang/" + barangRequestDTO.getSku());
     }
