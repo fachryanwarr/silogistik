@@ -3,6 +3,7 @@ package apap.ti.silogistik2106751070.service;
 import apap.ti.silogistik2106751070.dto.PermintaanPengirimanMapper;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
 import apap.ti.silogistik2106751070.dto.response.ReadPermintaanPengirimanResponseDTO;
+import apap.ti.silogistik2106751070.model.Barang;
 import apap.ti.silogistik2106751070.model.PermintaanPengiriman;
 import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanBarangDb;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -107,5 +109,22 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
         } else {
             throw new DataIntegrityViolationException("Permintaan pengiriman dengan nomor " + permintaanPengiriman.getNomorPengiriman() + " sudah tidak dapat dicancel!");
         }
+    }
+
+    @Override
+    public List<ReadPermintaanPengirimanResponseDTO> getPermintaanPengirimanFiltered(Date startdate, Date endDate, Barang barang) {
+        List<Long> listIdPermintaanFromBarang = new ArrayList<>();
+        for (PermintaanPengirimanBarang permintaanPengirimanBarang : barang.getListPermintaanPengirimanBarang()) {
+            listIdPermintaanFromBarang.add(permintaanPengirimanBarang.getPermintaanPengiriman().getId());
+        }
+
+        List<PermintaanPengiriman> listPermintaanPengiriman = permintaanPengirimanDb.findByWaktuPermintaanBetweenAndIdInOrderByWaktuPermintaanDesc(startdate, endDate, listIdPermintaanFromBarang);
+
+        List<ReadPermintaanPengirimanResponseDTO> listPermintaanFormatted = new ArrayList<>();
+        for (PermintaanPengiriman permintaanPengiriman : listPermintaanPengiriman) {
+            listPermintaanFormatted.add(permintaanPengirimanMapper.permintaanPengirimanToReadPermintaanPengirimanResponseDTO(permintaanPengiriman));
+        }
+
+        return listPermintaanFormatted;
     }
 }

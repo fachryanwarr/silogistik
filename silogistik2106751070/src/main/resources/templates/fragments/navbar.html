@@ -61,7 +61,8 @@
               <button
                 id="dropdownNavbarLink"
                 data-dropdown-toggle="dropdownNavbar"
-                class="flex items-center justify-between w-full py-2 pl-3 pr-4 rounded md:border-0 md:p-0 md:w-auto text-white md:hover:text-blue-500 focus:text-white border-gray-700 hover:bg-gray-700 md:hover:bg-transparent"
+                class="flex items-center justify-between w-full py-2 pl-3 pr-4 rounded md:border-0 md:p-0 md:w-auto md:hover:text-blue-500 border-gray-700 hover:bg-gray-700 md:hover:bg-transparent"
+                th:classappend="${index == '1'} ? 'text-blue-400 font-semibold' : 'text-white'"
               >
                 Gudang
                 <svg
@@ -124,7 +125,7 @@
             </li>
             <li>
               <a
-                href="#"
+                th:href="@{/filter-permintaan-pengiriman}"
                 class="block py-2 pl-3 pr-4 rounded md:hover:bg-transparent md:p-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white border-gray-700"
                 th:classappend="${index == '4'} ? 'text-blue-400 font-semibold' : 'text-white'"
                 >Bonus</a

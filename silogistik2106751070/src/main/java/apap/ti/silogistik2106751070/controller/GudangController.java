@@ -32,6 +32,7 @@ public class GudangController {
     @GetMapping("/gudang")
     public String viewAllGudang(Model model) {
         model.addAttribute("listGudang", gudangService.getAllGudang());
+        model.addAttribute("index", "1");
 
         return "gudang/viewall-gudang";
     }
@@ -46,7 +47,7 @@ public class GudangController {
         } else {
             model.addAttribute("error", "Gudang not found :(");
         }
-
+        model.addAttribute("index", "1");
 
         return "gudang/view-gudang";
     }
@@ -59,7 +60,7 @@ public class GudangController {
             model.addAttribute("listGudangBarang", barang.getListGudangBarang());
             model.addAttribute("selectedValue", skuBarang);
         }
-
+        model.addAttribute("index", "1");
         model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
 
         return "gudang/cari-barang";
@@ -68,11 +69,14 @@ public class GudangController {
     @GetMapping("/gudang/{idGudang}/restock-barang")
     public String formRestockBarang(@PathVariable(value = "idGudang") Long id, Model model) {
         Gudang gudang = gudangService.getGudangById(id);
-        UpdateGudangRequestDTO gudangDTO = gudangMapper.gudangToUpdateGudangRequestDTO(gudang);
-        List<Barang> listBarang = barangService.getAllBarangSortedByMerk();
+        if (gudang != null) {
+            UpdateGudangRequestDTO gudangDTO = gudangMapper.gudangToUpdateGudangRequestDTO(gudang);
+            List<Barang> listBarang = barangService.getAllBarangSortedByMerk();
 
-        model.addAttribute("gudangDTO", gudangDTO);
-        model.addAttribute("listBarang", listBarang);
+            model.addAttribute("gudangDTO", gudangDTO);
+            model.addAttribute("listBarang", listBarang);
+        }
+        model.addAttribute("index", "1");
 
         return "gudang/form-restock-barang";
     }

@@ -77,8 +77,8 @@ public class Silogistik2106751070Application {
 					case 3 -> "REG";
 					default -> "HEM";
 				};
-				//random past date 11 to 30 days from now
-				Date waktuPermintaan = fakeDate.past(30, 11,TimeUnit.DAYS);
+				//random past date until 10 days ago from now
+				Date waktuPermintaan = fakeDate.past(10, TimeUnit.DAYS);
 				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
 				permintaanPengirimanDTO.setNomorPengiriman("REQ" + jumlahBarangDipesan + jenisLayanan + timeFormat.format(waktuPermintaan));
@@ -87,7 +87,7 @@ public class Silogistik2106751070Application {
 				permintaanPengirimanDTO.setNamaPenerima(faker.name().firstName());
 				permintaanPengirimanDTO.setAlamatPenerima(faker.address().streetAddress());
 				//random past date ten days from now
-				permintaanPengirimanDTO.setTanggalPengiriman(fakeDate.past(10, TimeUnit.DAYS));
+				permintaanPengirimanDTO.setTanggalPengiriman(fakeDate.future(10, TimeUnit.DAYS));
 
 				permintaanPengirimanDTO.setBiayaPengiriman(10000 + (int) Math.floor(Math.random() * 90000));
 				permintaanPengirimanDTO.setJenisLayanan(noJenisLayanan);

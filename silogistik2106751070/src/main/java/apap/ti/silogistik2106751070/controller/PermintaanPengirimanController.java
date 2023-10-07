@@ -12,12 +12,10 @@ import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -126,5 +124,25 @@ public class PermintaanPengirimanController {
         }
 
         return new RedirectView("/permintaan-pengiriman/" + permintaanPengiriman.getId());
+    }
+
+    @GetMapping("/filter-permintaan-pengiriman")
+    public String filterPermintaan(@RequestParam(name = "start-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                   @RequestParam(name = "end-date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+                                   @RequestParam(name = "sku", required = false) String sku,
+                                   Model model) {
+
+        if (startDate != null && endDate != null && sku != null) {
+            Barang barang = barangService.getBarangBySku(sku);
+
+            model.addAttribute("listPermintaan", permintaanPengirimanService.getPermintaanPengirimanFiltered(startDate, endDate, barang));
+            model.addAttribute("selectedStartDate", startDate);
+            model.addAttribute("selectedEndDate", endDate);
+            model.addAttribute("selectedSKU", sku);
+        }
+
+        model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
+        model.addAttribute("index", "4");
+        return "permintaanPengiriman/filter";
     }
 }

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object
+      th:insert="~{fragments/common :: datatable}"
+      th:remove="tag"
+    ></object>
+    <title>Filter Permintaan Pengiriman</title>
+  </head>
+  <body class="bg-[#111827]">
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="min-h-screen">
+      <div class="text-center font-bold text-white m-5 text-2xl">
+        <h2>Filter Permintaan Pengiriman</h2>
+      </div>
+      <div class="w-[70%] mx-auto">
+        <form
+          th:action="@{/filter-permintaan-pengiriman}"
+          class="mx-auto px-10"
+        >
+          <select
+            id="sku"
+            name="sku"
+            class="mb-5 border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+          >
+            <div th:each="barang : ${listBarang}">
+              <option
+                th:value="${barang.sku}"
+                th:text="${barang.merk}"
+                th:selected="${barang.sku == selectedSKU}"
+              ></option>
+            </div>
+          </select>
+          <div class="flex justify-between mb-5 gap-5 items-center">
+            <div class="grow">
+              <input
+                type="date"
+                name="start-date"
+                id="start-date"
+                class="grow border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                th:value="${selectedStartDate}"
+                required
+              />
+            </div>
+            <p class="text-white">hingga</p>
+            <div class="grow">
+              <input
+                type="date"
+                name="end-date"
+                id="end-date"
+                class="border w-full text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                th:value="${selectedEndDate}"
+                required
+              />
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              Cari
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="px-20">
+        <hr class="my-3" />
+      </div>
+      <div th:if="${listPermintaan != null}" class="px-20 text-white mb-10">
+        <table id="tablePermintaan" class="display">
+          <thead class="font-bold">
+            <tr>
+              <th>#</th>
+              <th>Waktu Permintaan</th>
+              <th>Nomor Pengiriman</th>
+              <th>Nama Penerima</th>
+              <th>Alamat Penerima</th>
+              <th>Tanggal Pengiriman</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="permintaan, iterStat : ${listPermintaan}">
+              <td th:text="${iterStat.index + 1}"></td>
+              <td th:text="${permintaan.waktuPermintaanFormatted}"></td>
+              <td>
+                <a
+                  th:href="@{'/permintaan-pengiriman/' + ${permintaan.id}}"
+                  class="text-blue-100 hover:underline"
+                  th:text="${permintaan.nomorPengiriman}"
+                ></a>
+              </td>
+              <td th:text="${permintaan.namaPenerima}"></td>
+              <td th:text="${permintaan.alamatPenerima}"></td>
+              <td th:text="${permintaan.tanggalPengirimanFormatted}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <script>
+      $(document).ready(function () {
+        const datatable = new DataTable("#tablePermintaan");
+      });
+    </script>
+  </body>
+</html>
