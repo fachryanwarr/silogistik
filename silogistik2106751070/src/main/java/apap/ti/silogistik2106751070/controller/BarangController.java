@@ -29,14 +29,9 @@ public class BarangController {
 
     @GetMapping("/barang")
     public String viewAllBarang(Model model) {
-        String successMessage = (String) model.getAttribute("successMessage");
 
         model.addAttribute("listBarangStok", barangService.getAllBarangWithTotalStok());
         model.addAttribute("index", "2");
-
-        if (successMessage != null) {
-            model.addAttribute("successMessage", successMessage);
-        }
 
         return "barang/viewall-barang";
     }
@@ -45,16 +40,10 @@ public class BarangController {
     public String viewDetailBarang(@PathVariable(value = "sku") String sku, Model model) {
         Barang barang = barangService.getBarangBySku(sku);
 
-        String successMessage = (String) model.getAttribute("successMessage");
-
-        if (successMessage != null) {
-            model.addAttribute("successMessage", successMessage);
-        }
-
         if (barang != null) {
             model.addAttribute("barang", barangMapper.barangToReadBarangResponseDTO(barang));
         } else {
-            model.addAttribute("error", "Barang not found");
+            model.addAttribute("error", "Barang not found :(");
         }
         model.addAttribute("index", "2");
         return "barang/view-barang";

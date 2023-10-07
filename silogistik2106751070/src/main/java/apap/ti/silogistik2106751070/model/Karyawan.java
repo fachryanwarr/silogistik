@@ -1,6 +1,8 @@
 package apap.ti.silogistik2106751070.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +30,8 @@ public class Karyawan {
 
     @NotNull
     @Column(name = "jenis_kelamin", nullable = false)
+    @Max(value = 2)
+    @Min(value = 1)
     private Integer jenisKelamin;
 
     @NotNull

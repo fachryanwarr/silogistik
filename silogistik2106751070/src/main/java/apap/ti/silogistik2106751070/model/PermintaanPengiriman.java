@@ -1,6 +1,8 @@
 package apap.ti.silogistik2106751070.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -52,6 +54,8 @@ public class PermintaanPengiriman implements Comparable<PermintaanPengiriman>{
 
     @NotNull
     @Column(name = "jenis_layanan", nullable = false)
+    @Min(value = 1)
+    @Max(value = 4)
     private Integer jenisLayanan;
 
     @NotNull

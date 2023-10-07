@@ -58,7 +58,7 @@ public class Silogistik2106751070Application {
 			//data dummy karyawan
 			for (int i = 0; i < 10; i++) {
 				karyawanDTO.setNama(faker.name().name());
-				karyawanDTO.setJenisKelamin((int) Math.floor(Math.random() * 2));
+				karyawanDTO.setJenisKelamin(1 + (int) Math.floor(Math.random() * 2));
 				karyawanDTO.setTanggalLahir(fakeDate.birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
 				var karyawan = karyawanMapper.createKaryawanRequestDTOToKaryawan(karyawanDTO);
@@ -68,7 +68,7 @@ public class Silogistik2106751070Application {
 			}
 
 			//data dummy permintaan pengiriman
-			for (int i = 0; i < 30; i++) {
+			for (int i = 0; i < 50; i++) {
 				int jumlahBarangDipesan = (int) Math.floor(10 + Math.random() * 90);
 				int noJenisLayanan = 1 + (int) Math.floor(Math.random() * 4);
 				String jenisLayanan = switch (noJenisLayanan) {
@@ -135,7 +135,7 @@ public class Silogistik2106751070Application {
 			List<String> listSKU = barangService.getAllSku();
 
 			//data dummy gudang barang
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 100; i++) {
 				var gudangBarang = new GudangBarang();
 				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 29))));
 				gudangBarang.setGudang(gudangService.getGudangById((long) Math.floor(1 + Math.random() * 5)));

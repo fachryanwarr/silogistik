@@ -2,8 +2,7 @@ package apap.ti.silogistik2106751070.dto.request;
 
 import apap.ti.silogistik2106751070.model.Karyawan;
 import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +20,11 @@ public class CreatePermintaanPengirimanRequestDTO {
     private String nomorPengiriman;
 
     @NotNull
+    @NotBlank(message = "Nama penerima tidak boleh kosong")
     private String namaPenerima;
 
     @NotNull
+    @NotBlank(message = "Alamat penerima tidak boleh kosong")
     private String alamatPenerima;
 
     @NotNull
@@ -31,11 +32,15 @@ public class CreatePermintaanPengirimanRequestDTO {
     private Date tanggalPengiriman;
 
     @NotNull
+    @Positive(message = "Biaya pengiriman harus positif")
     private Integer biayaPengiriman;
 
     @NotNull
+    @Min(value = 1)
+    @Max(value = 4)
     private Integer jenisLayanan;
 
+    @NotNull
     private Date waktuPermintaan;
 
     @NotNull

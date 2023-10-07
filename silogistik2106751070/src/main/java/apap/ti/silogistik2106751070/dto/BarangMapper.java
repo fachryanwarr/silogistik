@@ -48,11 +48,11 @@ public interface BarangMapper {
     @AfterMapping
     default void setNamaTipeBarang(@MappingTarget UpdateBarangRequestDTO barangRequestDTO, Barang barang) {
         String tipeBarang = switch (barang.getTipeBarang()) {
-            case 1 -> "ELEC";
-            case 2 -> "CLOT";
-            case 3 -> "FOOD";
-            case 4 -> "COSM";
-            default -> "TOOL";
+            case 1 -> "Produk Elektronik";
+            case 2 -> "Pakaian & Aksesoris";
+            case 3 -> "Makanan & Minuman";
+            case 4 -> "Kosmetik";
+            default -> "Perlengkapan Rumah";
         };
 
         //set tipe barang

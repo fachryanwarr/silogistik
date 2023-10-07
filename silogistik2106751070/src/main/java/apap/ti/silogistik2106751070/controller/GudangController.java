@@ -39,26 +39,25 @@ public class GudangController {
     @GetMapping("/gudang/{id}")
     public String viewDetailGudang(@PathVariable(value = "id") Long id, Model model) {
         Gudang gudang = gudangService.getGudangById(id);
-        var gudangResponse = gudangMapper.gudangToReadGudangResponseDTO(gudang);
 
-        model.addAttribute("gudang", gudangResponse);
+        if (gudang != null) {
+            var gudangResponse = gudangMapper.gudangToReadGudangResponseDTO(gudang);
+            model.addAttribute("gudang", gudangResponse);
+        } else {
+            model.addAttribute("error", "Gudang not found :(");
+        }
+
 
         return "gudang/view-gudang";
     }
 
     @GetMapping("gudang/cari-barang")
     public String cariBarang(@RequestParam(name = "sku", required = false) String skuBarang, Model model) {
-        String successMessage = (String) model.getAttribute("successMessage");
-
         if (skuBarang != null && !skuBarang.isBlank()) {
             var barang = barangService.getBarangBySku(skuBarang);
 
             model.addAttribute("listGudangBarang", barang.getListGudangBarang());
             model.addAttribute("selectedValue", skuBarang);
-        }
-
-        if (successMessage != null) {
-            model.addAttribute("successMessage", successMessage);
         }
 
         model.addAttribute("listBarang", barangService.getAllBarangSortedByMerk());
