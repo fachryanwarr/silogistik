@@ -93,7 +93,7 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-        return "REQ" + (totalBarangDipesan % 100) + jenisLayanan + timeFormat.format(createPermintaanPengirimanRequestDTO.getWaktuPermintaan());
+        return "REQ" + String.format("%02d", (totalBarangDipesan % 100)) + jenisLayanan + timeFormat.format(createPermintaanPengirimanRequestDTO.getWaktuPermintaan());
     }
 
     @Override

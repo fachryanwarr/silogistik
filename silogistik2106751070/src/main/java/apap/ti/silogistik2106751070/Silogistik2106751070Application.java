@@ -58,7 +58,7 @@ public class Silogistik2106751070Application {
 			//data dummy karyawan
 			for (int i = 0; i < 10; i++) {
 				karyawanDTO.setNama(faker.name().name());
-				karyawanDTO.setJenisKelamin(1 + (int) Math.floor(Math.random() * 2));
+				karyawanDTO.setJenisKelamin(faker.number().numberBetween(1, 3));
 				karyawanDTO.setTanggalLahir(fakeDate.birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
 				var karyawan = karyawanMapper.createKaryawanRequestDTOToKaryawan(karyawanDTO);
@@ -69,8 +69,8 @@ public class Silogistik2106751070Application {
 
 			//data dummy permintaan pengiriman
 			for (int i = 0; i < 50; i++) {
-				int jumlahBarangDipesan = (int) Math.floor(10 + Math.random() * 90);
-				int noJenisLayanan = 1 + (int) Math.floor(Math.random() * 4);
+				int jumlahBarangDipesan = faker.number().numberBetween(10, 99);
+				int noJenisLayanan = faker.number().numberBetween(1, 5);
 				String jenisLayanan = switch (noJenisLayanan) {
 					case 1 -> "SAM";
 					case 2 -> "KIL";
@@ -81,7 +81,7 @@ public class Silogistik2106751070Application {
 				Date waktuPermintaan = fakeDate.past(10, TimeUnit.DAYS);
 				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-				permintaanPengirimanDTO.setNomorPengiriman("REQ" + jumlahBarangDipesan + jenisLayanan + timeFormat.format(waktuPermintaan));
+				permintaanPengirimanDTO.setNomorPengiriman("REQ" + String.format("%2d", jumlahBarangDipesan) + jenisLayanan + timeFormat.format(waktuPermintaan));
 				permintaanPengirimanDTO.setWaktuPermintaan(waktuPermintaan);
 
 				permintaanPengirimanDTO.setNamaPenerima(faker.name().firstName());
@@ -89,9 +89,9 @@ public class Silogistik2106751070Application {
 				//random past date ten days from now
 				permintaanPengirimanDTO.setTanggalPengiriman(fakeDate.future(10, TimeUnit.DAYS));
 
-				permintaanPengirimanDTO.setBiayaPengiriman(10000 + (int) Math.floor(Math.random() * 90000));
+				permintaanPengirimanDTO.setBiayaPengiriman(faker.number().numberBetween(10000, 99000));
 				permintaanPengirimanDTO.setJenisLayanan(noJenisLayanan);
-				permintaanPengirimanDTO.setKaryawan(karyawanService.getKaryawanById(1 + (long) Math.floor(Math.random() * 10)));
+				permintaanPengirimanDTO.setKaryawan(karyawanService.getKaryawanById((long) faker.number().numberBetween(1, 11)));
 
 				var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
 				try {
@@ -112,7 +112,7 @@ public class Silogistik2106751070Application {
 
 			//data dummy barang
 			for (int i = 0; i < 30; i++) {
-				int noTipeBarang = (int) Math.floor(1 + Math.random() * 5);
+				int noTipeBarang = faker.number().numberBetween(1, 6);
 				String tipeBarang = switch (noTipeBarang) {
 					case 1 -> "ELEC";
 					case 2 -> "CLOT";
@@ -124,7 +124,7 @@ public class Silogistik2106751070Application {
 				barangDTO.setTipeBarang(noTipeBarang);
 				barangDTO.setSku(tipeBarang + String.format("%03d", barangService.getNextNumForSKU(noTipeBarang)));
 				barangDTO.setMerk(faker.commerce().productName());
-				barangDTO.setHarga(10000 + (long) Math.floor(Math.random() * 1000000));
+				barangDTO.setHarga((long) faker.number().numberBetween(10000, 1000000));
 
 				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
 				try {
@@ -137,20 +137,20 @@ public class Silogistik2106751070Application {
 			//data dummy gudang barang
 			for (int i = 0; i < 100; i++) {
 				var gudangBarang = new GudangBarang();
-				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 29))));
-				gudangBarang.setGudang(gudangService.getGudangById((long) Math.floor(1 + Math.random() * 5)));
-				gudangBarang.setStok((int) Math.floor(1 + Math.random() * 99));
+				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get(faker.number().numberBetween(0, 30))));
+				gudangBarang.setGudang(gudangService.getGudangById((long) faker.number().numberBetween(1, 6)));
+				gudangBarang.setStok(faker.number().numberBetween(1, 99));
 				try {
 					gudangBarangService.saveGudangBarang(gudangBarang);
 				} catch (DataIntegrityViolationException ignored) {}
 			}
 
 			//data dummy permintaan pengiriman barang
-			for (int i = 0; i < 30; i++) {
+			for (int i = 0; i < 100; i++) {
 				var permintaanPengirimanBarang = new PermintaanPengirimanBarang();
-				permintaanPengirimanBarang.setBarang(barangService.getBarangBySku(listSKU.get((int) Math.floor(Math.random() * 29))));
-				permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengirimanService.getPermintaanPengirimanById((long) Math.floor(1 + Math.random() * 30)));
-				permintaanPengirimanBarang.setKuantitasPengiriman((int) Math.floor(1 + Math.random() * 10));
+				permintaanPengirimanBarang.setBarang(barangService.getBarangBySku(listSKU.get(faker.number().numberBetween(0, 30))));
+				permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengirimanService.getPermintaanPengirimanById((long) faker.number().numberBetween(1, 51)));
+				permintaanPengirimanBarang.setKuantitasPengiriman(faker.number().numberBetween(1, 21));
 				try {
 					permintaanPengirimanBarangService.savePermintaanPengirimanBarang(permintaanPengirimanBarang);
 				} catch (DataIntegrityViolationException ignored) {}
