@@ -23,4 +23,5 @@ public class ReadDetailPermintaanResponseDTO extends ReadPermintaanPengirimanRes
     private Karyawan karyawan;
     private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang;
     private boolean isCancelAble;
+    private String namaJenisLayanan;
 }

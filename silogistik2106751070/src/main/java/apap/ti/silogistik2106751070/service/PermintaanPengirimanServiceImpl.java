@@ -8,10 +8,12 @@ import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanBarangDb;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -53,7 +55,7 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
 
     @Override
     public List<PermintaanPengiriman> getAllPermintaanPengirimanOrderByWaktu() {
-        return permintaanPengirimanDb.findAllByIsCanceledFalseOrderByWaktuPermintaanDesc();
+        return permintaanPengirimanDb.findAllByOrderByWaktuPermintaanDesc();
     }
 
     @Override
@@ -94,7 +96,16 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
 
     @Override
     public void cancelPermintaan(PermintaanPengiriman permintaanPengiriman) {
-        permintaanPengiriman.setIsCanceled(true);
-        permintaanPengirimanDb.save(permintaanPengiriman);
+        Calendar now = Calendar.getInstance();
+        Calendar waktuPermintaan = Calendar.getInstance();
+        waktuPermintaan.setTime(permintaanPengiriman.getWaktuPermintaan());
+        waktuPermintaan.add(Calendar.HOUR_OF_DAY , 24);
+
+        if (!now.after(waktuPermintaan)) {
+            permintaanPengiriman.setIsCanceled(true);
+            permintaanPengirimanDb.save(permintaanPengiriman);
+        } else {
+            throw new DataIntegrityViolationException("Permintaan pengiriman dengan nomor " + permintaanPengiriman.getNomorPengiriman() + " sudah tidak dapat dicancel!");
+        }
     }
 }

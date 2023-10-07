@@ -29,12 +29,19 @@ public interface PermintaanPengirimanMapper {
     }
 
     @AfterMapping
-    default void setIsCancelAble(@MappingTarget ReadDetailPermintaanResponseDTO detailPermintaanResponseDTO, PermintaanPengiriman permintaanPengiriman) {
+    default void setIsCancelAbleAndJenisLayanan(@MappingTarget ReadDetailPermintaanResponseDTO detailPermintaanResponseDTO, PermintaanPengiriman permintaanPengiriman) {
         Calendar now = Calendar.getInstance();
         Calendar waktuPermintaan = Calendar.getInstance();
         waktuPermintaan.setTime(permintaanPengiriman.getWaktuPermintaan());
         waktuPermintaan.add(Calendar.HOUR_OF_DAY , 24);
 
-        detailPermintaanResponseDTO.setCancelAble(!now.after(waktuPermintaan));
+        detailPermintaanResponseDTO.setCancelAble(!now.after(waktuPermintaan) && !permintaanPengiriman.getIsCanceled());
+
+        detailPermintaanResponseDTO.setNamaJenisLayanan(switch (permintaanPengiriman.getJenisLayanan()) {
+            case 1 -> "Same Day";
+            case 2 -> "Kilat";
+            case 3 -> "Reguler";
+            default -> "Hemat";
+        });
     }
 }

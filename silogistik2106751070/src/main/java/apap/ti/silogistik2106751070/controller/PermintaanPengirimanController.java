@@ -11,6 +11,7 @@ import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,10 +58,15 @@ public class PermintaanPengirimanController {
     @GetMapping("/permintaan-pengiriman/{idPermintaanPengiriman}")
     public String detailPermintaanPengiriman(@PathVariable(value = "idPermintaanPengiriman") Long idPermintaanPengiriman, Model model) {
         PermintaanPengiriman permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaanPengiriman);
-        ReadDetailPermintaanResponseDTO detailPermintaanDTO = permintaanPengirimanMapper.permintaanPengirimanToReadDetailPermintaanResponseDTO(permintaanPengiriman);
 
-        model.addAttribute("index", 3);
-        model.addAttribute("permintaanPengiriman", detailPermintaanDTO);
+        if (permintaanPengiriman != null) {
+            ReadDetailPermintaanResponseDTO detailPermintaanDTO = permintaanPengirimanMapper.permintaanPengirimanToReadDetailPermintaanResponseDTO(permintaanPengiriman);
+
+            model.addAttribute("index", 3);
+            model.addAttribute("permintaanPengiriman", detailPermintaanDTO);
+        } else {
+            model.addAttribute("error", "Permintaan pengiriman not found :(");
+        }
         return "permintaanPengiriman/view-permintaanPengiriman";
     }
 
@@ -112,10 +118,13 @@ public class PermintaanPengirimanController {
     @GetMapping("/permintaan-pengiriman/{id}/cancel")
     public RedirectView cancelPermintaan(@PathVariable(value = "id") Long idPermintaan, RedirectAttributes redirectAttributes) {
         var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaan);
-        permintaanPengirimanService.cancelPermintaan(permintaanPengiriman);
+        try {
+            permintaanPengirimanService.cancelPermintaan(permintaanPengiriman);
+            redirectAttributes.addFlashAttribute("successMessage", "Berhasil membatalkan permintaan pengiriman dengan nomor pengiriman " + permintaanPengiriman.getNomorPengiriman());
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
 
-        redirectAttributes.addFlashAttribute("successMessage", "Berhasil membatalkan permintaan pengiriman dengan nomor pengiriman " + permintaanPengiriman.getNomorPengiriman());
-
-        return new RedirectView("/permintaan-pengiriman");
+        return new RedirectView("/permintaan-pengiriman/" + permintaanPengiriman.getId());
     }
 }

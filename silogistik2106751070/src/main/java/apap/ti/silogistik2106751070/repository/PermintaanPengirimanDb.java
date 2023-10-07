@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PermintaanPengirimanDb extends JpaRepository<PermintaanPengiriman, Long> {
-    List<PermintaanPengiriman> findAllByIsCanceledFalseOrderByWaktuPermintaanDesc();
+    List<PermintaanPengiriman> findAllByOrderByWaktuPermintaanDesc();
 }
