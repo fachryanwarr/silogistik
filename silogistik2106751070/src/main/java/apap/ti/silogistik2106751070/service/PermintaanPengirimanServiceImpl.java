@@ -8,6 +8,7 @@ import apap.ti.silogistik2106751070.model.PermintaanPengiriman;
 import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanBarangDb;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanDb;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,15 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     PermintaanPengirimanBarangDb permintaanPengirimanBarangDb;
 
     @Override
+    @Transactional
     public void savePermintaanPengiriman(PermintaanPengiriman permintaanPengiriman) {
         permintaanPengirimanDb.save(permintaanPengiriman);
 
         for (PermintaanPengirimanBarang permintaanPengirimanBarang : permintaanPengiriman.getListPermintaanPengirimanBarang()) {
             permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengiriman);
-            permintaanPengirimanBarangDb.save(permintaanPengirimanBarang);
         }
+
+        permintaanPengirimanBarangDb.saveAll(permintaanPengiriman.getListPermintaanPengirimanBarang());
     }
 
     @Override

@@ -2,6 +2,7 @@ package apap.ti.silogistik2106751070.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,6 @@ public class PermintaanPengirimanBarang {
 
     @NotNull
     @Column(name = "kuantitas_pengiriman", nullable = false)
+    @Positive(message = "Kuantitas pengiriman tidak bisa 0 atau negatif")
     private int kuantitasPengiriman;
 }

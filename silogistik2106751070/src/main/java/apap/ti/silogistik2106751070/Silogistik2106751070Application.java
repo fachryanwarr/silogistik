@@ -135,7 +135,7 @@ public class Silogistik2106751070Application {
 			List<String> listSKU = barangService.getAllSku();
 
 			//data dummy gudang barang
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < 50; i++) {
 				var gudangBarang = new GudangBarang();
 				gudangBarang.setBarang(barangService.getBarangBySku(listSKU.get(faker.number().numberBetween(0, 30))));
 				gudangBarang.setGudang(gudangService.getGudangById((long) faker.number().numberBetween(1, 6)));

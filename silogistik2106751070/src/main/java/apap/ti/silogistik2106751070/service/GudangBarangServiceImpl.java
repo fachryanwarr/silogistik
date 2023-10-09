@@ -18,6 +18,11 @@ public class GudangBarangServiceImpl implements GudangBarangService{
     }
 
     @Override
+    public void saveAllGudangBarang(List<GudangBarang> listGudangBarang) {
+        gudangBarangDb.saveAll(listGudangBarang);
+    }
+
+    @Override
     public List<GudangBarang> getAllGudangBarang() {
         return gudangBarangDb.findAll();
     }

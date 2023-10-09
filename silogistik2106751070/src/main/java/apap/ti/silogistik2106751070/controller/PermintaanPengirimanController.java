@@ -10,6 +10,8 @@ import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
+import jakarta.transaction.TransactionalException;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -122,10 +124,17 @@ public class PermintaanPengirimanController {
         permintaanPengirimanDTO.setNomorPengiriman(permintaanPengirimanService.generateNomorPengiriman(permintaanPengirimanDTO));
 
         var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
-        permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Berhasil membuat permintaan pengiriman");
-
+        try {
+            permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
+            redirectAttributes.addFlashAttribute("successMessage", "Berhasil membuat permintaan pengiriman");
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("error", "Barang tidak boleh duplikat");
+            return new RedirectView("/permintaan-pengiriman/tambah");
+        } catch (ConstraintViolationException e) {
+            redirectAttributes.addFlashAttribute("error", "Kuantitas pengiriman harus positif");
+            return new RedirectView("/permintaan-pengiriman/tambah");
+        }
         return new RedirectView("/permintaan-pengiriman");
     }
 

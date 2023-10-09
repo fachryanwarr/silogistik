@@ -8,8 +8,12 @@ import apap.ti.silogistik2106751070.model.GudangBarang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.GudangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -96,12 +100,32 @@ public class GudangController {
     }
 
     @PostMapping("/gudang/{idGudang}/restock-barang")
-    public RedirectView updateRestockBarang(@ModelAttribute UpdateGudangRequestDTO gudangDTO, RedirectAttributes redirectAttributes, Model model) {
+    public RedirectView updateRestockBarang(@ModelAttribute UpdateGudangRequestDTO gudangDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errors = new StringBuilder();
+            errors.append("Invalid input").append(" ");
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.append("| ").append(error.getDefaultMessage()).append(" | ");
+            }
+
+            redirectAttributes.addFlashAttribute("error", errors);
+
+            return new RedirectView("/barang/tambah");
+        }
+
         Gudang gudang = gudangMapper.updateGudangRequestDTOToGudang(gudangDTO);
 
-        gudangService.restockBarang(gudang);
-
-        redirectAttributes.addFlashAttribute("successMessage", "Berhasil restock barang");
+        try {
+            gudangService.restockBarang(gudang);
+            redirectAttributes.addFlashAttribute("successMessage", "Berhasil restock barang");
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("error", "Tidak boleh ada barang yang duplikat, atur jumlah stoknya saja");
+            return new RedirectView("/gudang/" + gudangDTO.getId() + "/restock-barang");
+        } catch (TransactionSystemException e) {
+            redirectAttributes.addFlashAttribute("error", "Stok tidak boleh bernilai negatif");
+            return new RedirectView("/gudang/" + gudangDTO.getId() + "/restock-barang");
+        }
 
         return new RedirectView("/gudang/" + gudangDTO.getId());
     }
