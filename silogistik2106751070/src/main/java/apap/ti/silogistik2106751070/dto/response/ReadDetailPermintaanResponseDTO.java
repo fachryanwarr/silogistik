@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ReadDetailPermintaanResponseDTO extends ReadPermintaanPengirimanResponseDTO{
-    private Boolean isCanceled = true;
+    private Boolean isCanceled;
     private Date tanggalPengiriman;
     private Integer biayaPengiriman;
     private Integer jenisLayanan;

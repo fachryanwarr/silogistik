@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,11 +41,11 @@ public class CreatePermintaanPengirimanRequestDTO {
     @Max(value = 4)
     private Integer jenisLayanan;
 
-    @NotNull
     private Date waktuPermintaan;
 
     @NotNull
     private Karyawan karyawan;
 
-    private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang;
+    @Size(min = 1, message = "Permintaan pengiriman harus menyertakan barang!")
+    private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang = new ArrayList<>();
 }

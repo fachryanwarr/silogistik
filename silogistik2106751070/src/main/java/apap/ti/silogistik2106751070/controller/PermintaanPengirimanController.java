@@ -10,11 +10,14 @@ import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -101,7 +104,20 @@ public class PermintaanPengirimanController {
     }
 
     @PostMapping("/permintaan-pengiriman/tambah")
-    public RedirectView tambahPermintaanPengiriman(@ModelAttribute CreatePermintaanPengirimanRequestDTO permintaanPengirimanDTO, RedirectAttributes redirectAttributes) {
+    public RedirectView tambahPermintaanPengiriman(@Valid @ModelAttribute CreatePermintaanPengirimanRequestDTO permintaanPengirimanDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errors = new StringBuilder();
+            errors.append("Invalid input").append(" |");
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.append(error.getDefaultMessage()).append(" | ");
+            }
+
+            redirectAttributes.addFlashAttribute("error", errors);
+
+            return new RedirectView("/permintaan-pengiriman/tambah");
+        }
+
         permintaanPengirimanDTO.setWaktuPermintaan(new Date());
         permintaanPengirimanDTO.setNomorPengiriman(permintaanPengirimanService.generateNomorPengiriman(permintaanPengirimanDTO));
 
