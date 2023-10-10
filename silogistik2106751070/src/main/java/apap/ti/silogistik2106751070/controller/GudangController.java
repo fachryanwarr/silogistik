@@ -7,6 +7,7 @@ import apap.ti.silogistik2106751070.model.Gudang;
 import apap.ti.silogistik2106751070.model.GudangBarang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.GudangService;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -111,7 +112,7 @@ public class GudangController {
 
             redirectAttributes.addFlashAttribute("error", errors);
 
-            return new RedirectView("/barang/tambah");
+            return new RedirectView("/gudang/" + gudangDTO.getId() + "/restock-barang");
         }
 
         Gudang gudang = gudangMapper.updateGudangRequestDTOToGudang(gudangDTO);
@@ -122,7 +123,7 @@ public class GudangController {
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("error", "Tidak boleh ada barang yang duplikat, atur jumlah stoknya saja");
             return new RedirectView("/gudang/" + gudangDTO.getId() + "/restock-barang");
-        } catch (TransactionSystemException e) {
+        } catch (TransactionSystemException | ConstraintViolationException e) {
             redirectAttributes.addFlashAttribute("error", "Stok tidak boleh bernilai negatif");
             return new RedirectView("/gudang/" + gudangDTO.getId() + "/restock-barang");
         }
