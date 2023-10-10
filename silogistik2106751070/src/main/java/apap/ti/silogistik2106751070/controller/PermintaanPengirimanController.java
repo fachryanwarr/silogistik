@@ -10,7 +10,6 @@ import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.service.BarangService;
 import apap.ti.silogistik2106751070.service.KaryawanService;
 import apap.ti.silogistik2106751070.service.PermintaanPengirimanService;
-import jakarta.transaction.TransactionalException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
