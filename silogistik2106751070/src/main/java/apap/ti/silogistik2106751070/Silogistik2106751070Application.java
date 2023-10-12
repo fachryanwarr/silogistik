@@ -8,6 +8,7 @@ import apap.ti.silogistik2106751070.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreateGudangRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreateKaryawanRequestDTO;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
+import apap.ti.silogistik2106751070.exception.StokKurangException;
 import apap.ti.silogistik2106751070.model.GudangBarang;
 import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106751070.service.*;
@@ -96,7 +97,7 @@ public class Silogistik2106751070Application {
 				var permintaanPengiriman = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(permintaanPengirimanDTO);
 				try {
 					permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
-				} catch (DataIntegrityViolationException ignored){}
+				} catch (DataIntegrityViolationException | StokKurangException ignored){}
 			}
 
 			//data dummy gudang

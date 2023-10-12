@@ -3,6 +3,7 @@ package apap.ti.silogistik2106751070.controller;
 import apap.ti.silogistik2106751070.dto.PermintaanPengirimanMapper;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
 import apap.ti.silogistik2106751070.dto.response.ReadDetailPermintaanResponseDTO;
+import apap.ti.silogistik2106751070.exception.StokKurangException;
 import apap.ti.silogistik2106751070.model.Barang;
 import apap.ti.silogistik2106751070.model.Karyawan;
 import apap.ti.silogistik2106751070.model.PermintaanPengiriman;
@@ -127,14 +128,15 @@ public class PermintaanPengirimanController {
         try {
             permintaanPengirimanService.savePermintaanPengiriman(permintaanPengiriman);
             redirectAttributes.addFlashAttribute("successMessage", "Berhasil membuat permintaan pengiriman");
+            return new RedirectView("/permintaan-pengiriman");
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("error", "Barang tidak boleh duplikat");
-            return new RedirectView("/permintaan-pengiriman/tambah");
         } catch (ConstraintViolationException e) {
             redirectAttributes.addFlashAttribute("error", "Kuantitas pengiriman harus positif");
-            return new RedirectView("/permintaan-pengiriman/tambah");
+        } catch (StokKurangException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return new RedirectView("/permintaan-pengiriman");
+        return new RedirectView("/permintaan-pengiriman/tambah");
     }
 
     @GetMapping("/permintaan-pengiriman/{id}/cancel")

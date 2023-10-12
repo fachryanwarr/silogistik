@@ -3,9 +3,12 @@ package apap.ti.silogistik2106751070.service;
 import apap.ti.silogistik2106751070.dto.PermintaanPengirimanMapper;
 import apap.ti.silogistik2106751070.dto.request.CreatePermintaanPengirimanRequestDTO;
 import apap.ti.silogistik2106751070.dto.response.ReadPermintaanPengirimanResponseDTO;
+import apap.ti.silogistik2106751070.exception.StokKurangException;
 import apap.ti.silogistik2106751070.model.Barang;
 import apap.ti.silogistik2106751070.model.PermintaanPengiriman;
 import apap.ti.silogistik2106751070.model.PermintaanPengirimanBarang;
+import apap.ti.silogistik2106751070.repository.BarangDb;
+import apap.ti.silogistik2106751070.repository.GudangBarangDb;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanBarangDb;
 import apap.ti.silogistik2106751070.repository.PermintaanPengirimanDb;
 import jakarta.transaction.Transactional;
@@ -31,15 +34,35 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     @Autowired
     PermintaanPengirimanBarangDb permintaanPengirimanBarangDb;
 
+    @Autowired
+    GudangBarangDb gudangBarangDb;
+
+    @Autowired
+    BarangDb barangDb;
+
     @Override
     @Transactional
-    public void savePermintaanPengiriman(PermintaanPengiriman permintaanPengiriman) {
+    public void savePermintaanPengiriman(PermintaanPengiriman permintaanPengiriman) throws StokKurangException {
         permintaanPengirimanDb.save(permintaanPengiriman);
+
+        boolean isStokValid = true;
+        List<String> listBarangKurang = new ArrayList<>();
 
         for (PermintaanPengirimanBarang permintaanPengirimanBarang : permintaanPengiriman.getListPermintaanPengirimanBarang()) {
             permintaanPengirimanBarang.setPermintaanPengiriman(permintaanPengiriman);
+
+            Long stokBarang = gudangBarangDb.getTotalStokBySkuBarang(permintaanPengirimanBarang.getBarang().getSku());
+            if (stokBarang == null) stokBarang = (long) 0;
+            if (permintaanPengirimanBarang.getKuantitasPengiriman() > stokBarang) {
+                var barang = barangDb.getReferenceById(permintaanPengirimanBarang.getBarang().getSku());
+                listBarangKurang.add(barang.getMerk());
+                isStokValid = false;
+            }
         }
 
+        if (!isStokValid) {
+            throw new StokKurangException("Stok untuk " + String.join(", ", listBarangKurang) + " kurang");
+        }
         permintaanPengirimanBarangDb.saveAll(permintaanPengiriman.getListPermintaanPengirimanBarang());
     }
 
