@@ -1,4 +1,4 @@
-#How to run this project
+# How to run this project
 
 1. Copy the contents of the .env.example file and create .env file with the copied contents
 2. Go to the silogistik2106751070 folder and build Gradle
